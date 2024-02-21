@@ -1,0 +1,13 @@
+body {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    background: #9A616D;
+}
+  h1{
+    text-align: center;
+  }
+
+  /* @media (min-width: 1500px) {
+    .h-custom-2 {
+      height: 100%;
+      }
+    } */
