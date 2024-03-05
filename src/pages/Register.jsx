@@ -7,22 +7,14 @@ import {
     MDBIcon,
     MDBInput
 } from 'mdb-react-ui-kit';
-import logo from '../assets/BrewBoxLogo.png';
-import images from '../assets/ImageData';
+import logo from '../assets/Images/BrewBoxLogo.png';
+import images from '../assets/Data/ImageData';
 import { Link } from 'react-router-dom';
 const randomNum=Math.floor(Math.random() * images.length);
 
 
 function Register() {
-    useEffect(() => {
-        // Disable scrolling when component mounts
-        document.body.style.overflow = 'hidden';
-
-        // Re-enable scrolling when component unmounts
-        return () => {
-            document.body.style.overflow = 'visible';
-        };
-    }, []);
+    
 
     return (
         <MDBContainer fluid>

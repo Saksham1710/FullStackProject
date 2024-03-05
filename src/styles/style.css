@@ -1,0 +1,53 @@
+/* Universal Styles */
+
+/* Font Families */
+body {
+    font-family: 'Roboto', sans-serif; /* Default font family */
+  }
+  h1 {
+    font-size: 36px; /* Heading 1 size */
+    font-weight: bold; /* Heading 1 boldness */
+    line-height: 1.2; /* Heading 1 line height */
+    color: #533e2d;
+
+}
+.custom-btn {
+  background-color: #533e2d;
+  transition: background-color 0.3s; /* Add transition for smooth effect */
+}
+
+.custom-btn:hover {
+  background-color: #6e4b3a; /* Change background color on hover */
+}
+
+h2 {
+    font-size: 34px; /* Heading 2 size */
+    font-weight: bold; /* Heading 2 boldness */
+    line-height: 1.2; /* Heading 2 line height */
+    color: #533e2d;
+    
+}
+
+h3 {
+    font-size: 24px; /* Heading 3 size */
+    font-weight: bold; /* Heading 3 boldness */
+    line-height: 1.2; /* Heading 3 line height */
+    color: #533e2d;
+    
+}
+
+p {
+    font-size: 16px; /* Paragraph size */
+    line-height: 1.5; /* Paragraph line height */
+    color: #6e4b3a;
+}
+  
+  /* Other Text Elements */
+  a {
+ /* Link color */
+    color: #6e4b3a;
+    text-decoration: none; /* Remove underline by default */
+  }
+  
+  /* Add more styles as needed */
+  

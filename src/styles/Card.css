@@ -1,0 +1,71 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    background-color: #fcf9f5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card__cover {
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .card__content {
+    padding: 16px;
+
+  }
+  
+  .card__title {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  
+  .card__desc {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .card__bookmark {
+    position: absolute;
+    top: 10px; /* Adjust top position as needed */
+    right: 10px; /* Adjust right position as needed */
+    cursor: pointer;
+}
+
+  
+  .card__bookmark:hover {
+    scale: 1.2;
+  }
+  
+  .card__bookmark-icon {
+    color: #888;
+    font-size: 24px;
+  }
+  
+  .card__bookmark-icon.bookmarked {
+    color: rgb(184, 43, 43); /* Change color for bookmarked state */
+  }
+  
+  .card__price {
+    font-size: 16px;
+    margin-top: 8px;
+  }
+  
+  .card__rating {
+    font-size: 14px;
+    color: #888;
+    margin-top: 4px;
+  }
+  
+  .bookmarked {
+  
+    color: #fff;
+  }
+  

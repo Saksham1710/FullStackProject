@@ -1,40 +1,27 @@
 import React from 'react';
-import Slider from 'react-slick'; // Import the slider component
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import images from '../assets/ImageData';
+import { MDBCarousel, MDBCarouselItem } from 'mdb-react-ui-kit';
+import slideshow1 from '../assets/Images/slideshow1.jpg';
+import slideshow2 from '../assets/Images/slideshow2.jpg';
+import slideshow3 from '../assets/Images/slideshow3.jpg';
+import slideshow4 from '../assets/Images/slideshow4.jpg';
 
-const LandingPage = () => {
-  // Define settings for the slider
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  };
-
-  // Array of coffee pictures
-
+export default function LandingPage() {
+  const carouselHeight = `calc(100vh - 56px)`; // Adjust the 56px according to your layout (header/footer height)
 
   return (
-    <div>
-      <nav>
-        {/* Navbar content */}
-      </nav>
-      <Slider {...sliderSettings}>
-      {/* Map through the images array and display each image in the slider */}
-      {images.map((image,index)=>{
-        return (<div>
-            <img src={image} alt={`Coffee ${index+1}`} style={{ width: '100vw', height: '90vh', objectFit: 'cover' }} />
-            {console.log(image)}
-        </div>)
-      })}
-        
-       
-      </Slider>
-    </div>
+    <MDBCarousel showControls fade>
+      <MDBCarouselItem itemId={1}>
+        <img src={slideshow1} className='d-block w-100' style={{ height: "70vh" , objectFit:"cover"}} alt='...' />
+      </MDBCarouselItem>
+      <MDBCarouselItem itemId={2}>
+        <img src={slideshow2} className='d-block w-100' style={{ height: "70vh" ,objectFit:"cover"}} alt='...' />
+      </MDBCarouselItem>
+      <MDBCarouselItem itemId={3}>
+        <img src={slideshow3} className='d-block w-100' style={{ height: "70vh",objectFit:"cover" }} alt='...' />
+      </MDBCarouselItem>
+      <MDBCarouselItem itemId={4}>
+        <img src={slideshow4} className='d-block w-100' style={{ height: "70vh" , objectFit:"cover"}} alt='...' />
+      </MDBCarouselItem>
+    </MDBCarousel>
   );
-};
-
-export default LandingPage;
+}
