@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import bottledBeverages from '../assets/Data/Beverages';
-//import '../styles/BottledProduct.css'; // Import your CSS file for styling
+import axios from 'axios';
 
 const BottledProduct = () => {
   const { productId } = useParams();
@@ -11,9 +10,10 @@ const BottledProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const selectedProduct = bottledBeverages.find(item => item.id === parseInt(productId));
-        if (selectedProduct) {
-          setProduct(selectedProduct);
+        const response = await axios.get(`http://localhost:5000/api/beverages/${productId}`);
+        if (response.data) {
+          console.log('Product:', response.data);
+          setProduct(response.data);
         } else {
           throw new Error('Product not found');
         }

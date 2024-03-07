@@ -49,4 +49,4 @@ const coffeeSchema = new mongoose.Schema({
 
 coffeeSchema.plugin(mongooseAggregatePaginate);
 
-export const CoffeeData = mongoose.model("coffee", coffeeSchema);
+export const CoffeeData = mongoose.model("CoffeeData", coffeeSchema,"coffee");

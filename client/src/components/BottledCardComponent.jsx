@@ -4,6 +4,7 @@ import '../styles/Card.css';
 
 const BottledBeverageCard = (props) => {
     const [isBookmarked, setIsBookmarked] = useState(false);
+    
 
     const handleBookmark = (event) => {
         event.preventDefault();
@@ -22,7 +23,7 @@ const BottledBeverageCard = (props) => {
 
     return (
         <div style={{ padding: "20px", width: "340px", height: "600px", marginBottom: "60px" }}>
-            <Link to={`/product/${id}`} style={{ textDecoration: 'none', color: 'inherit' }} onClick={scrollToTop}>
+            <Link to={`/api/beverages/${id}`} style={{ textDecoration: 'none', color: 'inherit' }} onClick={scrollToTop}>
                 <div className="card" style={{ width: "300px", height: "600px" }}>
                     <img src={image} alt="Product Cover" style={{ width: "300px" }} className="card__cover" />
                     <div className="card__content">
@@ -35,7 +36,7 @@ const BottledBeverageCard = (props) => {
                                 <i className="far fa-bookmark card__bookmark-icon"></i>
                             )}
                         </div>
-                        <div className="card__price" style={{ fontSize: '20px' }}>${price}/10lb</div>
+                        <div className="card__price" style={{ fontSize: '20px' }}>${price}/pc.</div>
                         <div className="card__quantity" style={{ fontSize: '18px' }}>Quantity: {quantity}</div>
                         <div className="card__rating" style={{ fontSize: '18px' }}>Overall Rating: {overallStars} stars</div>
                     </div>

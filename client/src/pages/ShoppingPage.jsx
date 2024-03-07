@@ -1,27 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom"; // Import Link
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Card from "../components/Card";
-import coffees from "../assets/Data/CoffeeData";
-import teas from "../assets/Data/TeaData";
 import TeaCard from "../components/TeaCard";
-import bottledBeverages from "../assets/Data/Beverages";
 import BottledCardComponent from "../components/BottledCardComponent";
+import axios from "axios";
 
 function ShoppingPage() {
+    const [coffees, setCoffeeData] = useState([]); // Create a state variable to store the coffee data
+    const [teas, setTeaData] = useState([]); // Create a state variable to store the tea data
+    const [bottledBeverages, setBeveragesData] = useState([]); // Create a state variable to store the bottled beverages data
+
+    useEffect(()=> {
+            const fetchCoffee = async() =>{
+           try {
+             const response = await axios.get("http://localhost:5000/api/coffees");
+             console.table(response.data);
+             setCoffeeData(response.data);
+           } catch (error) {
+            console.log("Error fetching coffee data" + error);
+           }
+        };
+        fetchCoffee();
+    },[]);
+    useEffect(()=> {
+            const fetchTea = async() =>{
+           try {
+             const response = await axios.get("http://localhost:5000/api/teas");
+             console.table(response.data);
+             setTeaData(response.data);
+           } catch (error) {
+            console.log("Error fetching coffee data" + error);
+           }
+        };
+        fetchTea();
+    },[]);
+    useEffect(()=> {
+            const fetchBeverages = async() =>{
+           try {
+             const response = await axios.get("http://localhost:5000/api/beverages");
+             console.table(response.data);
+             setBeveragesData(response.data);
+           } catch (error) {
+            console.log("Error fetching coffee data" + error);
+           }
+        };
+        fetchBeverages();
+    },[]);
+   
+    
     return (
         <div>
             <Navbar />
-            
             {/* Coffee Section */}
             <div style={{ textAlign: "center", color: "darkbrown" }}>
                 <h2 style={{marginTop:"30px"}}>Coffee</h2>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row", flexWrap: "wrap" }}>
                     {coffees.map((coffee, index) => (
-                        <Link key={index} to={`/product/${coffee.id}`}> {/* Wrap each Card with Link */}
+                        <Link key={index} to={`/product/${coffee._id}`}>
                             <Card
-                                id={coffee.id}
+                                id={coffee._id}
                                 title={coffee.title}
                                 description={coffee.description}
                                 imageUrl={coffee.image}
@@ -40,9 +79,9 @@ function ShoppingPage() {
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row", flexWrap: "wrap" }}>
                     {teas.map((tea, index) => (
                         console.log(tea),
-                        <Link key={index} to={`/product/${tea.id}`}> {/* Wrap each TeaCard with Link */}
+                        <Link key={index} to={`/product/${tea._id}`}> {/* Wrap each TeaCard with Link */}
                             <TeaCard
-                                id={tea.id}
+                                id={tea._id}
                                 title={tea.title}
                                 description={tea.description}
                                 imageUrl={tea.image}
@@ -58,9 +97,9 @@ function ShoppingPage() {
                 <h2 style={{marginTop:"30px"}}>Bottled Beverages</h2>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row", flexWrap: "wrap" }}>
                     {bottledBeverages.map((beverage, index) => (
-                        <Link key={index} to={`/product/${beverage.id}`}> {/* Wrap each Card with Link */}
+                        <a key={index} href={`/api/beverages/${beverage._id}`}> {/* Wrap each Card with Link */}
                             <BottledCardComponent
-                                id={beverage.id}
+                                id={beverage._id}
                                 name={beverage.name}
                                 description={beverage.description}
                                 image={beverage.image}
@@ -68,11 +107,10 @@ function ShoppingPage() {
                                 overallStars={beverage.overallStars}
                                 quantity={beverage.quantity}
                             />
-                        </Link>
+                        </a>
                     ))}
                 </div>
             </div>
-            
             
             <Footer />
         </div>

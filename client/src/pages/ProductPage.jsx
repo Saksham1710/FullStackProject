@@ -14,11 +14,13 @@ function ProductPage() {
         <div>
             <Navbar />
             {/* Conditional rendering based on productId */}
-            {parseInt(productId) > 25 ? (
+            {/* {parseInt(productId) > 25 ? (
                 <BottledProduct productId={productId} />
             ) : (
                 <ProductPageComponent productId={productId} setCartItems={setCartItems} />
-            )}
+            )} */}
+
+            <BottledProduct productId={productId} />
             <Footer />
         </div>
     );
