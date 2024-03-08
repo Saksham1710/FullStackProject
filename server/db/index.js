@@ -13,21 +13,3 @@ const connectDB = async () => {
 }
 
 export default connectDB;
-
-// import { MongoClient } from "mongodb";
-
-// let dbConnection
-
-// export const connectToDb = (cb) => {
-//     MongoClient.connect("mongodb+srv://saksham:Saksham%40123@cluster0.j5qv4li.mongodb.net/BrewBox")
-//     .then((client)=>{
-//         dbConnection = client.db();
-//         return cb();
-//     })
-//     .catch((err)=>{
-//         console.log(err);
-//         return cb(err);
-//     });
-// };
-
-// export const getDb = () => dbConnection;
