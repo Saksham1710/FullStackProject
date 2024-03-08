@@ -42,8 +42,8 @@ app.get("/api/teas",async(req,res)=>{
 app.get("/api/beverages",async(req,res)=>{
     try {
         const data = await BeveragesData.find({});
-        //console.log("DATA: "+data);
         res.json(data);
+
 
     } catch (error) {
         console.error('Error retrieving data:', error);
@@ -51,19 +51,27 @@ app.get("/api/beverages",async(req,res)=>{
     }
 })
 
-app.get("/api/beverages/:id",async(req,res)=>{
+app.get("/api/beverages/:id", async (req, res) => {
     try {
-        const data = await BeveragesData.findOne({_id:req.params.id});
-        console.log("DATA: "+JSON.stringify(data.data));
-        res.json(data);
+        const productId = req.params.id;
+        console.log("Requested Product ID:", productId);
 
+        const data = await BeveragesData.findOne({_id: productId});
+        console.log("Retrieved Data:", data);
+
+        if (!data) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        res.json(data);
     } catch (error) {
         console.error('Error retrieving data:', error);
         res.status(500).json({ error: 'Server error' });
     }
-}
-)
+});
+
 
 app.listen(5000,()=>{
     console.log("Listening to 5000");
 })
+
