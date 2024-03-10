@@ -1,5 +1,4 @@
-import express from "express";
-import cors from "cors";
+import {app} from "./app.js"
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 import {CoffeeData} from "./models/coffeeData.model.js";
@@ -11,11 +10,6 @@ dotenv.config({
     path: "./.env" 
    });
 connectDB();
-
-
-const app=express();
-app.use(cors());
-
 
 app.get("/api/coffees",async(req,res)=>{
     try {
@@ -71,7 +65,7 @@ app.get("/api/beverages/:id", async (req, res) => {
 });
 
 
-app.listen(5000,()=>{
-    console.log("Listening to 5000");
+app.listen(process.env.PORT,()=>{
+    console.log(`Listening to ${process.env.PORT}`);
 })
 
