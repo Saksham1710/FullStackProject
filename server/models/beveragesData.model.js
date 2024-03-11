@@ -53,6 +53,7 @@ const beveragesSchema = new mongoose.Schema({
     }
 });
 
-const BeveragesData = mongoose.model('BeveragesData', beveragesSchema,"bottled_beverages");
 
-export default BeveragesData;
+
+
+export const BeveragesData = mongoose.model('BeveragesData', beveragesSchema,"bottled_beverages");

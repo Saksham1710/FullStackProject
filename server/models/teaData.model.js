@@ -83,6 +83,4 @@ const teaSchema = new mongoose.Schema({
     }
 });
 
-const TeaData = mongoose.model('TeaData', teaSchema,"tea");
-
-export default TeaData;
+export  const TeaData = mongoose.model('TeaData', teaSchema,"tea");;
