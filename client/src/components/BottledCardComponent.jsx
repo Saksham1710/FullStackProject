@@ -23,7 +23,7 @@ const BottledBeverageCard = (props) => {
 
     return (
         <div style={{ padding: "20px", width: "340px", height: "600px", marginBottom: "60px" }}>
-            <Link to={`/api/beverages/${id}`} style={{ textDecoration: 'none', color: 'inherit' }} onClick={scrollToTop}>
+            <Link to={`/api/v1/beverages/${id}`} style={{ textDecoration: 'none', color: 'inherit' }} onClick={scrollToTop}>
                 <div className="card" style={{ width: "300px", height: "600px" }}>
                     <img src={image} alt="Product Cover" style={{ width: "300px" }} className="card__cover" />
                     <div className="card__content">

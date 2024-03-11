@@ -1,11 +1,14 @@
 import { app } from "./app.js";
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
+import cors from "cors";
 
 dotenv.config({
     path: "./.env"
 });
 connectDB();
+
+app.use(cors());
 
 // Start server
 app.listen(process.env.PORT, () => {

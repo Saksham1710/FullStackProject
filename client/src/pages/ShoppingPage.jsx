@@ -15,7 +15,7 @@ function ShoppingPage() {
     useEffect(()=> {
             const fetchCoffee = async() =>{
            try {
-             const response = await axios.get("http://localhost:5000/api/coffees");
+             const response = await axios.get("http://localhost:4000/api/v1/coffees");
              console.table(response.data);
              setCoffeeData(response.data);
            } catch (error) {
@@ -27,7 +27,7 @@ function ShoppingPage() {
     useEffect(()=> {
             const fetchTea = async() =>{
            try {
-             const response = await axios.get("http://localhost:5000/api/teas");
+             const response = await axios.get("http://localhost:4000/api/v1/teas");
              console.table(response.data);
              setTeaData(response.data);
            } catch (error) {
@@ -39,7 +39,7 @@ function ShoppingPage() {
     useEffect(()=> {
             const fetchBeverages = async() =>{
            try {
-             const response = await axios.get("http://localhost:5000/api/beverages");
+             const response = await axios.get("http://localhost:4000/api/v1/beverages");
              console.table(response.data);
              setBeveragesData(response.data);
            } catch (error) {
@@ -97,7 +97,7 @@ function ShoppingPage() {
                 <h2 style={{marginTop:"30px"}}>Bottled Beverages</h2>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row", flexWrap: "wrap" }}>
                     {bottledBeverages.map((beverage, index) => (
-                        <a key={index} href={`/api/beverages/${beverage._id}`}> {/* Wrap each Card with Link */}
+                        <a key={index} href={`/api/v1/beverages/${beverage._id}`}> {/* Wrap each Card with Link */}
                             <BottledCardComponent
                                 id={beverage._id}
                                 name={beverage.name}

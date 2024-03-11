@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MDBContainer, MDBNavbar, MDBNavbarBrand, MDBNavbarToggler, MDBIcon, MDBNavbarNav, MDBNavbarItem, MDBNavbarLink, MDBBtn, MDBCollapse } from "mdb-react-ui-kit";
 import { MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem } from "mdb-react-ui-kit";
 import logo from "../assets/Images/onlyLogo.png";
@@ -10,6 +10,25 @@ export default function NavBar() {
   const [openBasic, setOpenBasic] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false); // State to control the visibility of the cart modal
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to check if user is logged in or not
+  const [userAvatar, setUserAvatar] = useState(null); // State to store the user's avatar
+
+  useEffect(()=>{
+    fetchUserLoginStatus();
+  }, []);
+
+  const fetchUserLoginStatus = async()=>{
+    try{
+      const response = await fetch('http://localhost:4000/api/v1/users/current-user');
+      if(response.ok){
+        const data = await response.json();
+        setIsLoggedIn(true);
+        setUserAvatar(data.user.avatar);
+      }
+    }catch(error){
+      console.error('Error fetching user login status:', error);
+    }
+  }
 
   const toggleSearch = () => setShowSearch(!showSearch);
 
@@ -70,6 +89,7 @@ export default function NavBar() {
             </MDBNavbarItem>
           </MDBNavbarNav>
 
+
           <MDBNavbarNav className="ml-auto mb-2 mb-lg-0">
             <MDBNavbarItem style={{ marginLeft: "auto" }}>
               {/* Add onClick event handler to cart icon to toggle the cart modal */}
@@ -84,11 +104,21 @@ export default function NavBar() {
                 <MDBIcon fas icon="search" style={{ fontSize: '20px' }}></MDBIcon>
               </MDBNavbarLink>
             </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBBtn className="custom-btn" href="/login" style={{ backgroundColor: '#533e2d' }}>
-                Sign In
-              </MDBBtn>
-            </MDBNavbarItem>
+            {/* Conditionally render sign-in button or user avatar */}
+            {isLoggedIn ? (
+              <MDBNavbarItem style={{marginTop:'auto', marginBottom:'auto'}}>
+                {/* Render user avatar with initials */}
+                <tag className="me-2" style={{ backgroundColor: 'green',padding:'10px', borderRadius:'50%', color:'white' }}>
+                  {userAvatar && userAvatar.initials}
+                </tag>
+              </MDBNavbarItem>
+            ) : (
+              <MDBNavbarItem>
+                <MDBBtn className="custom-btn" href="/login" style={{ backgroundColor: '#533e2d' }}>
+                  Sign In
+                </MDBBtn>
+              </MDBNavbarItem>
+            )}
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>

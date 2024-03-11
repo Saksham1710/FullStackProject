@@ -10,7 +10,7 @@ const BottledProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/beverages/${productId}`);
+        const response = await axios.get(`http://localhost:4000/api/v1/beverages/${productId}`);
         if (response.data) {
           console.log('Product:', response.data);
           setProduct(response.data);
