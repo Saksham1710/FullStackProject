@@ -10,8 +10,8 @@ import AboutUS from "../assets/Images/AboutUS.jpg";
 import ItemTypes from "../components/ItemTypes";
 import ReviewInput from "../components/ReviewInput";
 import '../styles/style.css';
-import { Link } from "react-router-dom";
-import { Button } from 'react-bootstrap'; 
+
+
 
 function HomePage() {
     const getRandomNumbers = () => {
