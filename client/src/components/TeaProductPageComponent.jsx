@@ -4,7 +4,7 @@ import teas from '../assets/Data/TeaData';
 import cart from '../assets/Data/CartData';
 import axios from 'axios';
 
-const ProductPageComponent = ({productId}) => {// Extract productId from URL params
+const TeaProductPageComponent = ({productId}) => {// Extract productId from URL params
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [cartItems, setCartItems] = useState([]); // State to manage cart items
@@ -18,7 +18,7 @@ const ProductPageComponent = ({productId}) => {// Extract productId from URL par
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/v1/coffees/`+productId);
+        const response = await axios.get(`http://localhost:4000/api/v1/teas/`+productId);
         if (response.data) {
           console.log('Product:', response.data);
           setProduct(response.data);
@@ -173,4 +173,4 @@ const ProductPageComponent = ({productId}) => {// Extract productId from URL par
   );
 };
 
-export default ProductPageComponent;
+export default TeaProductPageComponent;

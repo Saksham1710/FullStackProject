@@ -16,7 +16,7 @@ function ShoppingPage() {
             const fetchCoffee = async() =>{
            try {
              const response = await axios.get("http://localhost:4000/api/v1/coffees");
-             console.table(response.data);
+             //console.table(response.data);
              setCoffeeData(response.data);
            } catch (error) {
             console.log("Error fetching coffee data" + error);
@@ -28,7 +28,7 @@ function ShoppingPage() {
             const fetchTea = async() =>{
            try {
              const response = await axios.get("http://localhost:4000/api/v1/teas");
-             console.table(response.data);
+             //console.table(response.data);
              setTeaData(response.data);
            } catch (error) {
             console.log("Error fetching coffee data" + error);
@@ -40,7 +40,7 @@ function ShoppingPage() {
             const fetchBeverages = async() =>{
            try {
              const response = await axios.get("http://localhost:4000/api/v1/beverages");
-             console.table(response.data);
+             //console.table(response.data);
              setBeveragesData(response.data);
            } catch (error) {
             console.log("Error fetching coffee data" + error);
@@ -58,7 +58,7 @@ function ShoppingPage() {
                 <h2 style={{marginTop:"30px"}}>Coffee</h2>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row", flexWrap: "wrap" }}>
                     {coffees.map((coffee, index) => (
-                        <Link key={index} to={`/product/${coffee._id}`}>
+                        <Link key={index} to={`/api/v1/coffees/${coffee._id}`}>
                             <Card
                                 id={coffee._id}
                                 title={coffee.title}
@@ -78,8 +78,8 @@ function ShoppingPage() {
                 <h2 style={{marginTop:"30px"}}>Tea</h2>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row", flexWrap: "wrap" }}>
                     {teas.map((tea, index) => (
-                        console.log(tea),
-                        <Link key={index} to={`/product/${tea._id}`}> {/* Wrap each TeaCard with Link */}
+                        //console.log(tea),
+                        <Link key={index} to={`/api/v1/teas/${tea._id}`}> {/* Wrap each TeaCard with Link */}
                             <TeaCard
                                 id={tea._id}
                                 title={tea.title}

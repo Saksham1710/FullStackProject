@@ -80,7 +80,8 @@ function Login() {
                                 name="password"
                                 value={formData.password}
                                 onChange={handleInputChange}
-                            /><MDBBtn type="submit" className="mb-4 px-5 mx-5 w-100" style={{ backgroundColor: '#533e2d' }} size='lg'>Login</MDBBtn>
+                            />
+                            <MDBBtn type="submit" className="mb-4 px-5 mx-5 w-100" style={{ backgroundColor: '#533e2d' }} size='lg'>Login</MDBBtn>
                         <MDBBtn className="mb-4 px-5 mx-5 w-100" style={{ backgroundColor: '#ab8461' }} size='lg'>
                             <MDBIcon fab icon="google" className="me-2" />
                             Sign in with Google

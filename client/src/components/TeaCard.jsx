@@ -22,7 +22,7 @@ const TeaCard = (props) => {
 
     return (
         <div style={{ padding: "20px", width: "340px", height: "560px", marginBottom: "60px" }}>
-            <Link to={`/product/${id}`} style={{ textDecoration: 'none', color: 'inherit' }} onClick={scrollToTop}>
+            <Link to={`/api/v1/teas/${id}`} style={{ textDecoration: 'none', color: 'inherit' }} onClick={scrollToTop}>
                 <div className="card" style={{ width: "300px", height: "560px" }}>
                     <img src={imageUrl} alt="Product Cover" style={{ width: "300px" }} className="card__cover" />
                     <div className="card__content">

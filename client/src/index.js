@@ -11,6 +11,9 @@ import HomePage from './pages/HomePage.jsx';
 import ShoppingPage from './pages/ShoppingPage.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import ProductPage from './pages/ProductPage.jsx';
+import BottledProduct from './components/BottledProduct.jsx';
+import ProductPageBottle from './pages/ProductPageBottle.jsx';
+import ProductPageTea from './pages/ProductPageTea.jsx';
 
 const router = createBrowserRouter([
     {
@@ -34,8 +37,16 @@ const router = createBrowserRouter([
         element: <AboutUs />,
     },
     {
-        path: "/product/:productId", // Define the route for the product detail page
+        path: "/api/v1/beverages/:productId",
+        element: <ProductPageBottle />,
+    },
+    {
+        path: "/api/v1/coffees/:productId",
         element: <ProductPage />,
+    },
+    {
+        path: "/api/v1/teas/:productId",
+        element: <ProductPageTea />,
     },
     {
         path: "*",
