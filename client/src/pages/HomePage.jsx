@@ -14,6 +14,24 @@ import '../styles/style.css';
 
 
 function HomePage() {
+
+  React.useEffect(()=>{
+    const fetchUserLoginStatus= async() =>{
+      try{
+        const response = await fetch('http://localhost:4000/api/v1/users/current-user');
+        console.log(response);
+        if(response.ok){
+          const data = await response.json();
+          // setIsLoggedIn(true);
+          // setUserAvatar(data.user.avatar);
+        }
+      }catch(error){
+        console.error('Error fetching user login status:', error);
+      }
+    };
+  
+  fetchUserLoginStatus()}, []);
+
     const getRandomNumbers = () => {
         const numbers = [];
         while (numbers.length < 3) {

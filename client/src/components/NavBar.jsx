@@ -14,21 +14,22 @@ export default function NavBar() {
   const [userAvatar, setUserAvatar] = useState(null); // State to store the user's avatar
 
   useEffect(()=>{
-    fetchUserLoginStatus();
-  }, []);
-
-  const fetchUserLoginStatus = async()=>{
-    try{
-      const response = await fetch('http://localhost:4000/api/v1/users/current-user');
-      if(response.ok){
-        const data = await response.json();
-        setIsLoggedIn(true);
-        setUserAvatar(data.user.avatar);
+    const fetchUserLoginStatus= async() =>{
+      try{
+        const response = await fetch('http://localhost:4000/api/v1/users/current-user');
+        console.log(response);
+        if(response.ok){
+          const data = await response.json();
+          setIsLoggedIn(true);
+          setUserAvatar(data.user.avatar);
+        }
+      }catch(error){
+        console.error('Error fetching user login status:', error);
       }
-    }catch(error){
-      console.error('Error fetching user login status:', error);
-    }
-  }
+    };
+  
+  fetchUserLoginStatus()}, []);
+
 
   const toggleSearch = () => setShowSearch(!showSearch);
 
