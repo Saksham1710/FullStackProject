@@ -64,16 +64,25 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Something went wrong while registering user");
     }
 
+
     // // Generate access and refresh tokens
-    // const accessToken = generateAccessToken(user._id);
-    // const refreshToken = generateRefreshToken(user._id);
+    const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(createdUser._id)
 
-    // user.refreshToken = refreshToken;
-    // await user.save({ validateBeforeSave: false });
-
+     user.refreshToken = refreshToken;
+     await user.save({ validateBeforeSave: false });
+     const options = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 24 * 60 * 60 * 1000
+    }
 
     // Return response
-    return res.status(201).json(new ApiResponse(200, createdUser, "User registered successfully"));
+    return res
+    .status(201)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(new ApiResponse(200, createdUser, "User registered successfully"));
 });
 
 
@@ -113,6 +122,8 @@ const loginUser = asyncHandler(async (req, res) =>{
     const options = {
         httpOnly: true,
         secure: true,
+        sameSite: "strict",
+        maxAge: 24 * 60 * 60 * 1000
     }
 
     return res
@@ -224,7 +235,8 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
 
 const getCurrentUser = asyncHandler(async (req, res) => {
 
-    const userId = req.user; // Assuming you have middleware to extract user information from JWT token
+    const userId = req.user; 
+    console.log(userId)// Assuming you have middleware to extract user information from JWT token
     if(!userId){
         throw new ApiError(401, "Unauthorized request");
     }
@@ -234,7 +246,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
       throw new ApiError(404, "User not found");
     }
   
-    return res.status(200).json(new ApiResponse(200, user, "User details fetched successfully"));
+    return res.status(200).json(new ApiResponse(200, JSON.stringify(user), "User details fetched successfully",true));
   });
 
 

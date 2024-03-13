@@ -47,6 +47,7 @@ const ProductPageComponent = ({productId}) => {// Extract productId from URL par
   };
 
   const handleAddToCart = () => {
+    
     if (product) {
       const newItem = {
         id: product.id,

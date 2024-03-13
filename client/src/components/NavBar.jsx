@@ -6,24 +6,40 @@ import { Offcanvas } from 'react-bootstrap'; // Import Offcanvas from react-boot
 import "../styles/style.css";
 import CartModal from "./CartModal";
 
+
 export default function NavBar() {
   const [openBasic, setOpenBasic] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false); // State to control the visibility of the cart modal
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to check if user is logged in or not
-  const [userAvatar, setUserAvatar] = useState(null); // State to store the user's avatar
+  //const [userAvatar, setUserAvatar] = useState(null); // State to store the user's avatar
+  const [userInitials, setUserInitials] = useState(""); // State to store the user's initials
 
   useEffect(()=>{
-    const fetchUserLoginStatus= async() =>{
-      try{
-        const response = await fetch('http://localhost:4000/api/v1/users/current-user');
+    const fetchUserLoginStatus = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/v1/users/current-user', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         console.log(response);
-        if(response.ok){
-          const data = await response.json();
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log('User login status:', responseData);
           setIsLoggedIn(true);
-          setUserAvatar(data.user.avatar);
+          
+          // Parse the data field
+          const userData = JSON.parse(responseData.data);
+          
+          const initials = (userData.firstName.charAt(0) + userData.lastName.charAt(0));
+          setUserInitials(initials.toUpperCase());
+          console.log('User initials:', initials);
+          //setUserAvatar(data.user.avatar);
         }
-      }catch(error){
+      } catch (error) {
         console.error('Error fetching user login status:', error);
       }
     };
@@ -109,9 +125,9 @@ export default function NavBar() {
             {isLoggedIn ? (
               <MDBNavbarItem style={{marginTop:'auto', marginBottom:'auto'}}>
                 {/* Render user avatar with initials */}
-                <tag className="me-2" style={{ backgroundColor: 'green',padding:'10px', borderRadius:'50%', color:'white' }}>
-                  {userAvatar && userAvatar.initials}
-                </tag>
+                <p className="me-2" style={{ backgroundColor: 'green',padding:'10px', borderRadius:'50%', color:'white' }}>
+                  {userInitials}
+                </p>
               </MDBNavbarItem>
             ) : (
               <MDBNavbarItem>

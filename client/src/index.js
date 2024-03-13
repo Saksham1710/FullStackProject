@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { BrowserRouter as Router, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from './App.js';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
@@ -11,7 +11,6 @@ import HomePage from './pages/HomePage.jsx';
 import ShoppingPage from './pages/ShoppingPage.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import ProductPage from './pages/ProductPage.jsx';
-import BottledProduct from './components/BottledProduct.jsx';
 import ProductPageBottle from './pages/ProductPageBottle.jsx';
 import ProductPageTea from './pages/ProductPageTea.jsx';
 

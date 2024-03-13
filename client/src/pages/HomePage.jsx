@@ -14,23 +14,37 @@ import '../styles/style.css';
 
 
 function HomePage() {
-
-  React.useEffect(()=>{
-    const fetchUserLoginStatus= async() =>{
-      try{
-        const response = await fetch('http://localhost:4000/api/v1/users/current-user');
-        console.log(response);
-        if(response.ok){
-          const data = await response.json();
-          // setIsLoggedIn(true);
-          // setUserAvatar(data.user.avatar);
-        }
-      }catch(error){
-        console.error('Error fetching user login status:', error);
-      }
-    };
+  // React.useEffect(() => {
+  //   const fetchUserLoginStatus = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:4000/api/v1/users/current-user', {
+  //         method: 'GET',
+  //         credentials: 'include',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       });
   
-  fetchUserLoginStatus()}, []);
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         console.log('User login status:', data);
+  //         // Assuming you have a function setUser or similar to set user state
+  //         // setUser(data.user);
+  //       } else if (response.status === 401) {
+  //         // Handle unauthorized access, maybe redirect to login page
+  //         console.log('Unauthorized access');
+  //       } else {
+  //         // Handle other error cases
+  //         console.error('Error fetching user login status:', response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching user login status:', error);
+  //     }
+  //   };
+  
+  //   fetchUserLoginStatus();
+  // }, []);
+  
 
     const getRandomNumbers = () => {
         const numbers = [];

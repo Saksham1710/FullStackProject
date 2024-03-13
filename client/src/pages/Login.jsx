@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     MDBBtn,
@@ -16,6 +16,7 @@ const randomNum=Math.floor(Math.random() * images.length);
 
 function Login() {
     const navigate = useNavigate();
+    //const [user, setUser] = useState({});
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -32,6 +33,7 @@ function Login() {
         try {
             const response = await fetch('http://localhost:4000/api/v1/users/login', {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -42,7 +44,9 @@ function Login() {
             if (!response.ok) {
                 throw new Error(data.message);
             }
-
+            //setUser(data.user);
+            //localStorage.setItem("token", data.token);
+            //navigate to the home page after successful login
             navigate('/');
         } catch (error) {
             setError(error.message);
