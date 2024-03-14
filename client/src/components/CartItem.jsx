@@ -5,14 +5,14 @@ const CartItem = ({ item, onIncrease, onDecrease, onDelete }) => {
   return (
     <div className="cart-item" style={{ display: 'flex', alignItems: 'center', borderBottom: '1px solid #ccc', padding: '10px 0' }}>
       <div style={{ marginRight: '10px' }}>
-        <img src={item.image} alt={item.name} style={{ width: '150px', height: '150px',borderRadius:'10px' }} />
+        <img src={item.image} alt={item.title} style={{ width: '150px', height: '150px',borderRadius:'10px' }} />
       </div>
       <div className="item-details" style={{ flexGrow: 1, marginRight: '10px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span className="name" style={{ fontWeight: 'bold',fontSize:'20px',color:"#533e2d" }}>{item.name}</span>
+          <span className="name" style={{ fontWeight: 'bold',fontSize:'20px',color:"#533e2d" }}>{item.title}</span>
           <span className="price" style={{color:"#533e2d",fontSize:'22px'}}>{item.price}</span>
         </div>
-        <span className="weight">Weight: {item.weight}</span>
+        <span className="weight">Weight: {item.packing}</span>
         <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <span style={{marginRight:'10px'}}>Qty:</span>
           <button onClick={() => onDecrease(item)}>-</button>

@@ -49,9 +49,28 @@ export default function NavBar() {
 
   const toggleSearch = () => setShowSearch(!showSearch);
 
+
   // Function to toggle the visibility of the cart modal
   const toggleCartModal = () => {
     setShowCartModal(!showCartModal);
+  };
+
+  // Function to handle user logout
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/v1/users/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
 
   return (
@@ -100,7 +119,7 @@ export default function NavBar() {
                   <MDBDropdownItem link href="/paymentMethods" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="credit-card" className="me-2" />Payment Methods</MDBDropdownItem>
                   <MDBDropdownItem link href="/shippingInfo" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="truck" className="me-2" />Shipping Information</MDBDropdownItem>
                   <MDBDropdownItem link href="/subscription" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="bell" className="me-2" />Subscription</MDBDropdownItem>
-                  <MDBDropdownItem link href="/logout" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="sign-out-alt" className="me-2" />Logout</MDBDropdownItem>
+                  <MDBDropdownItem link onClick={handleLogout} style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="sign-out-alt" className="me-2" />Logout</MDBDropdownItem>
                 </MDBDropdownMenu>
               </MDBDropdown>
             </MDBNavbarItem>

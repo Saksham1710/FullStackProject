@@ -2,70 +2,77 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Cart } from "../models/cart.model.js";
-import { CoffeeData } from "../models/coffeeData.model.js";
-import { TeaData } from "../models/teaData.model.js";
-import { BeveragesData } from "../models/beveragesData.model.js";
 
-//Coffee Tea BottledBeverages
 
-const getProductTypeFromImageUrl = (imageUrl) => {
-    if (imageUrl.includes("Coffee")) return CoffeeData;
-    if (imageUrl.includes("Tea")) return TeaData;
-    if (imageUrl.includes("BottledBeverages")) return BeveragesData;
-    return "other";
-}
+//add the item into the DB
+const addCoffeeToCart = asyncHandler(async(req,res)=>{
+    const {userId,productId,quantity,mlQuantity,packing,title,image,price,type} = req.body;
 
-const addToCart = asyncHandler(async (req, res) => {
-    const { _id, quantity, image } = req.body;
-    
-    // Determine the product type from the image URL
-    const productType = getProductTypeFromImageUrl(image);
-    console.log("productType: ", productType);
+    const item = await Cart.create({
+        userId,
+        coffeeItem: productId,
+        title,
+        image,
+        price,
+        type,
+        quantity: Number(quantity),
+        mlQuantity,
+        packing,  
+    });
 
-    // Find the product by ID
-     const product = await productType.findById(_id);
-    console.log("Cart Product: ", product);
+    if(!item) throw new ApiError(500, "Error adding item to cart");
+    res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));    
+})
+const addTeaToCart = asyncHandler(async(req,res)=>{
+    const {userId,productId,quantity,mlQuantity,packing,title,image,price,type} = req.body;
 
-    // // Check if the product exists
-    // if (!product) {
-    //     throw new ApiError(404, "Product not found");
-    // }
+    const item = await Cart.create({
+        userId,
+        teaItem: productId,
+        title,
+        image,
+        price,
+        type,
+        quantity: Number(quantity),
+        mlQuantity,
+        packing,  
+    });
 
-    // // Check if the user has a cart
-    // let cart = req.user ? await Cart.findOne({ userId: req.user._id }) : null;
+    if(!item) throw new ApiError(500, "Error adding item to cart");
+    res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));    
+})
+const addBeverageToCart = asyncHandler(async(req,res)=>{
+    const {userId,productId,quantity,mlQuantity,packing,title,image,price,type} = req.body;
 
-    // // If no cart exists for the user, create a new cart and set it to the user's cart
-    // if (!cart) { 
-    //     cart = await Cart.create({ userId: req.user._id });
-    //     req.user.cart = cart._id;
-    //     await req.user.save({ validateBeforeSave: false });
-    // }
+    const item = await Cart.create({
+        userId,
+        beverageItem: productId,
+        title,
+        image,
+        price,
+        type,
+        quantity: Number(quantity),
+        mlQuantity,
+        packing,  
+    });
 
-    // // Check if the product is already in the cart
-    // const itemInCartIndex = cart.items.findIndex(item => item.productId.toString() === productId);
-
-    // // If the product is already in the cart, update the quantity of that item instead of adding another one
-    // if (itemInCartIndex !== -1) {
-    //     cart.items[itemInCartIndex].quantity += quantity;
-    // } else {
-    //     // Otherwise, add the product to the cart
-    //     cart.items.push({ productId, quantity, productType });
-    // }
-
-    // // Save the cart
-    // await cart.save();
-
-    // // Return a success response
-    // res.status(200)
-    // .json(new ApiResponse(200, "Item added to cart", { cart }));
-});
+    if(!item) throw new ApiError(500, "Error adding item to cart");
+    res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));    
+})
 
 // Get all items in the user's cart
 const getCartItems = async (req, res) => {
-    const cart = await Cart.findOne({ userId: req.user._id }).populate("items.productId");
+    try {
+        const cart = await Cart.findOne({ userId: req.user._id });
+        if (!cart) throw new ApiError(404, "Cart not found");
 
-    return new ApiResponse(200, "Cart items retrieved", { cart });
+        res.status(200).json({ success: true, data: cart, message: "Cart checked" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
 };
+
+
 
 // Remove an item from the user's cart by its index in the array of items
 const removeFromCart = async (req, res) => {
@@ -82,4 +89,4 @@ const removeFromCart = async (req, res) => {
     return new ApiResponse(200, "Item removed from cart", { cart });
 };
 
-export { addToCart, getCartItems, removeFromCart };
+export { addCoffeeToCart, getCartItems, removeFromCart, addTeaToCart, addBeverageToCart};

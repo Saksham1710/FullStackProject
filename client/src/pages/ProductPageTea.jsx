@@ -8,7 +8,33 @@ import axios from "axios";
 function ProductPageTea() {
     const { productId } = useParams();
     console.log(productId);
-    const [cartItems, setCartItems] = useState([]);
+
+
+    const [userId, setUserId] = useState(''); // State to store the user's ID
+    //fetch the current user
+    const fetchUser = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/api/v1/users/current-user', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                const responseData = await response.json();
+                const parseData= JSON.parse(responseData.data);
+                setUserId(parseData._id);
+                console.log('User ID:', parseData._id);
+                
+            }
+        } catch (error) {
+            console.error('Error fetching user login status:', error);
+        }
+    }
+    fetchUser();
+
+
     let data=[];
     //fetch the product based on productId
      const fetchProduct = async () => {
@@ -32,7 +58,7 @@ function ProductPageTea() {
     return (
         <div>
             <Navbar />
-            <TeaProductPageComponent productId={productId} setCartItems={setCartItems} />
+            <TeaProductPageComponent productId={productId} userId={userId} />
             <Footer />
         </div>
     );

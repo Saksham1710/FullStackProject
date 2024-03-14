@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import coffees from '../assets/Data/CoffeeData'; // Import your data source
-import teas from '../assets/Data/TeaData';
+
 import cart from '../assets/Data/CartData';
 import axios from 'axios';
 
-const ProductPageComponent = ({productId}) => {// Extract productId from URL params
+const ProductPageComponent = ({productId,userId}) => {// Extract productId from URL params
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [cartItems, setCartItems] = useState([]); // State to manage cart items
 
   // Function to handle adding items to the cart
-  const addToCart = (newItem) => {
-    setCartItems([...cartItems, newItem]);
-  };
-  let SingleRaay = coffees.concat(teas);
-
+  // const addToCart = (newItem) => {
+  //   setCartItems([...cartItems, newItem]);
+  // };
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -42,25 +38,36 @@ const ProductPageComponent = ({productId}) => {// Extract productId from URL par
     }
   };
 
-  const calculatePrice = () => {
-    return product ? (product.pricePer10lb * quantity).toFixed(2) : 0;
-  };
 
-  const handleAddToCart = () => {
+
+  const handleAddToCart = async() => {
     
     if (product) {
       const newItem = {
-        id: product.id,
-        name: product.title,
-        quantity: quantity,
-        price: calculatePrice(), // Calculate the price based on quantity
+        userId: userId,
+        productId: product._id,
+        title: product.title,
         image: product.image,
-        weight: '10 lb' // Assuming the weight is constant for all products
+        price: (Math.floor(product.pricePer10lb * quantity * 100) / 100).toFixed(2),
+        packing: 10,
+        quantity: quantity,
+        type:'coffee',
       };
       cart.push(newItem);
-      console.log("Item pushed to the cart \n"+(JSON.stringify(newItem)));// Add the new item to the cart
-
       console.log("Cart Items \n"+(JSON.stringify(cart)));
+
+      const response = await fetch('http://localhost:4000/api/v1/users/coffee/cart/add', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newItem)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add item');
+            }
     }
   };
   

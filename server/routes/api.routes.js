@@ -4,6 +4,7 @@ import { TeaData } from "../models/teaData.model.js";
 import { BeveragesData } from "../models/beveragesData.model.js";
 
 
+
 const api_router = Router();
 
 api_router.get("/coffees", async (req, res) => {
@@ -90,6 +91,7 @@ api_router.get("/teas/:id", async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
 
 
 export default api_router;

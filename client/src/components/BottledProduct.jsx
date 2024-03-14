@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import cart from '../assets/Data/CartData';
 
-const BottledProduct = () => {
+const BottledProduct = ({userId}) => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [packing, setPacking] = useState('4x4');
+  const [packing, setPacking] = useState(16);
   const [mlQuantity, setMlQuantity] = useState('250ml');
   const [price, setPrice] = useState(0);
 
@@ -29,8 +30,36 @@ const BottledProduct = () => {
     fetchProduct();
   }, [productId]);
 
-  const handleAddToCart = () => {
-    console.log('Product added to cart:', product);
+  const handleAddToCart = async(e) => {
+    console.log("Product: "+JSON.stringify(product));
+    if (product) {
+      const newItem = {
+        userId: userId,
+        productId: product._id,
+        title: product.name,
+        image: product.image,
+        price: (Math.floor(price * quantity * packing * 100) / 100).toFixed(2),
+        quantity: quantity,
+        mlQuantity: mlQuantity,
+        packing: packing,
+        type:'bottled',
+      };
+      cart.push(newItem);
+      console.log("Cart Items \n"+(JSON.stringify(cart)));
+
+      const response = await fetch('http://localhost:4000/api/v1/users/beverage/cart/add', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newItem)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add item');
+            }
+    }
   };
 
   const incrementQuantity = () => {
@@ -88,11 +117,11 @@ return (
               </div>
               <div className="packing-selector" style={{ marginRight: '20px' }}>
                 <label htmlFor="packing" style={{ fontSize: '18px', marginRight: '10px' }}>Packing:</label>
-                <select id="packing" value={packing} onChange={(e) => setPacking(e.target.value)} style={{ fontSize: '16px', padding: '4px 8px', borderRadius: '5px', border: '1px solid #ccc', margin: '0 10px' }}>
-                  <option value="4x4">4x4 - 16 cans</option>
-                  <option value="4x6">4x6 - 24 cans</option>
-                  <option value="6x6">6x6 - 36 cans</option>
-                  <option value="6x8">6x8 - 48 cans</option>
+                <select id="packing" value={packing} onChange={(e) => setPacking(e.target.value)} style={{ fontSize: '16px', padding: '4px 8px', borderRadius: '5px', border: '1px solid #ccc', margin: '0 10px' }} >
+                  <option value={16}>4x4 - 16 cans</option>
+                  <option value={24}>4x6 - 24 cans</option>
+                  <option value={36}>6x6 - 36 cans</option>
+                  <option value={48}>6x8 - 48 cans</option>
                 </select>
               </div>
               <div className="ml-quantity-selector">

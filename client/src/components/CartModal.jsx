@@ -1,41 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import CartItem from "./CartItem";
-import {BrazilianSantos,
-ColombianSupremo,
-CostaRicanTarrazu,
-EthiopianYirgacheffe,
-GuatemalanAntigua,
-HawaiianKona,
-JamaicanBlueMountain,
-KenyanAA,
-MexicanAltura,
-SumatranMandheling,
-greenTea,
-blackTea,
-oolongTea,
-whiteTea,
-herbalTea,
-chaiTea,
-earlGreyTea,
-jasmineTea,
-peppermintTea,
-rooibosTea,
-matchaTea,
-hibiscusTea,
-lemonGingerTea,
-turmericTea,
-chamomileTea,} from "../assets/Data/images";
+
 
 function CartModal({ show, toggleCartModal }) {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: "Brazilian Santos", quantity: 1, price:'$55', image: BrazilianSantos, weight: "10 lb" },
-    { id: 2, name: "Chai Tea", quantity: 1, price: "$56", image: chaiTea, weight: "10 lb" },
-    { id: 3, name: "Colombian Supremo", quantity: 1, price: "$57", image: ColombianSupremo, weight: "10 lb" },
-    { id: 4, name: "Costa Rican Tarrazu", quantity: 1, price: "$58", image: CostaRicanTarrazu, weight: "10 lb" },
-  ]);
+  const [cartItems, setCartItems] = useState([]);
 
+  //Function to fetch the items from db to cart
+  
+  
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await fetch("/cart/check");
+        const data = await response.json();
+        console.log("Data: ",data)
+        setCartItems(data);
+        console.log("Cart items: ", data);
+      } catch (error) {
+        console.error("Error fetching cart items: ", error);
+      }
+    }
+    fetchCartItems()
+  }, []);
   // Function to increase the quantity of an item
   const increaseQuantity = (item) => {
     const updatedCartItems = cartItems.map(cartItem => {
