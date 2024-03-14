@@ -63,7 +63,7 @@ const addBeverageToCart = asyncHandler(async(req,res)=>{
 // Get all items in the user's cart
 const getCartItems = async (req, res) => {
     try {
-        const cart = await Cart.findOne({ userId: req.user._id });
+        const cart = await Cart.find({ userId: req.user._id });
         if (!cart) throw new ApiError(404, "Cart not found");
 
         res.status(200).json({ success: true, data: cart, message: "Cart checked" });
