@@ -13,7 +13,7 @@ router.route("/logout").post(verifyJWT,logoutUser);
 router.route("/coffee/cart/add",verifyJWT).post(addCoffeeToCart);
 router.route("/tea/cart/add",verifyJWT).post(addTeaToCart);
 router.route("/beverage/cart/add",verifyJWT).post(addBeverageToCart);
-router.route("/cart/check").get(verifyJWT,getCartItems);
+router.route("/cart").get(verifyJWT,getCartItems);
 
 
 // secured routes

@@ -46,6 +46,8 @@ export default function NavBar() {
   
   fetchUserLoginStatus()}, []);
 
+  
+
 
   const toggleSearch = () => setShowSearch(!showSearch);
 

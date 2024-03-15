@@ -13,14 +13,14 @@ function CartModal({ show, toggleCartModal }) {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await fetch("/api/v1/users/cart/check",{
+        const response = await fetch("http://localhost:4000/api/v1/users/cart", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-        }
-        );
-        const data = await response.json();
+        });
+        console.log("Response: ", response);
+        const data = await response.json(); // Parse the response as JSON
         console.log("Data: ", data);
         if (data.success) {
           setCartItems(data.data); // Set cart items to the array of items from the API response
@@ -30,13 +30,14 @@ function CartModal({ show, toggleCartModal }) {
       } catch (error) {
         console.error("Error fetching cart items: ", error);
       }
-    };    
+    };
+        
     fetchCartItems()
   }, []);
   // Function to increase the quantity of an item
   const increaseQuantity = (item) => {
     const updatedCartItems = cartItems.map(cartItem => {
-      if (cartItem.id === item.id) {
+      if (cartItem._id === item._id) {
         return { ...cartItem, quantity: cartItem.quantity + 1 };
       }
       return cartItem;
@@ -47,7 +48,7 @@ function CartModal({ show, toggleCartModal }) {
   // Function to decrease the quantity of an item
   const decreaseQuantity = (item) => {
     const updatedCartItems = cartItems.map(cartItem => {
-      if (cartItem.id === item.id && cartItem.quantity > 1) {
+      if (cartItem._id === item._id && cartItem.quantity > 1) {
         return { ...cartItem, quantity: cartItem.quantity - 1 };
       }
       return cartItem;
@@ -57,7 +58,7 @@ function CartModal({ show, toggleCartModal }) {
 
   // Function to remove an item from the cart
   const removeItem = (itemId) => {
-    const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== itemId);
+    const updatedCartItems = cartItems.filter(cartItem => cartItem._id !== itemId);
     setCartItems(updatedCartItems);
   };
 

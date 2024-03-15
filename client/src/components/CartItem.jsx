@@ -18,7 +18,7 @@ const CartItem = ({ item, onIncrease, onDecrease, onDelete }) => {
           <button onClick={() => onDecrease(item)}>-</button>
           <span className="quantity" style={{ margin: '0 10px' }}>{item.quantity}</span>
           <button onClick={() => onIncrease(item)}>+</button>
-          <MDBIcon icon="trash-alt" style={{ marginLeft: 'auto', cursor: 'pointer', }} onClick={() => onDelete(item.id)} />
+          <MDBIcon icon="trash-alt" style={{ marginLeft: 'auto', cursor: 'pointer', }} onClick={() => onDelete(item._id)} />
         </div>
       </div>
     </div>
