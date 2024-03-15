@@ -2,41 +2,40 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import CartItem from "./CartItem";
+import "../styles/cartStyle.css"
 
 
 function CartModal({ show, toggleCartModal }) {
   const [cartItems, setCartItems] = useState([]);
 
   //Function to fetch the items from db to cart
-  
+  const fetchCartItems = async () => {
+    try {
+      const response=await fetch("http://localhost:4000/api/v1/users/cart", {
+        method: "GET",
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+       const data = await response.json(); // Parse the response as JSON
+       if (data.success) {
+        setCartItems(data.data); // Set cart items to the array of items from the API response
+      } else {
+        console.error("Error fetching cart items: ", data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching cart items: ", error);
+    }
+  };
   
   useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response=await fetch("http://localhost:4000/api/v1/users/cart", {
-          method: "GET",
-          credentials: 'include',
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-         console.log("Response: ", response);
-         const data = await response.json(); // Parse the response as JSON
-         console.log("Data: ", data.data[0]);
-         const fetchedData=JSON.stringify(data.data);
-         console.log("FetchedData: ",fetchedData);
-         if (data.success) {
-          setCartItems(data.data); // Set cart items to the array of items from the API response
-        } else {
-          console.error("Error fetching cart items: ", data.message);
-        }
-      } catch (error) {
-        console.error("Error fetching cart items: ", error);
-      }
-    };
-        
+    if(show){
     fetchCartItems()
-  }, []);
+    }
+  }, [show]);
+
+
 
   console.log("Cart ITems: ",cartItems);
   // Function to increase the quantity of an item
@@ -69,12 +68,12 @@ function CartModal({ show, toggleCartModal }) {
 
   return (
     <>
-      <Modal show={show} onHide={toggleCartModal}>
+      <Modal show={show} onHide={toggleCartModal} dialogClassName="cart-modal">
         <Modal.Header closeButton>
           <Modal.Title>Your Cart</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-        
+        <Modal.Body className="cart-modal-body">
+        <div className="cart-item-list">
           {cartItems.map(item => (
             <CartItem
               key={item._id}
@@ -84,6 +83,7 @@ function CartModal({ show, toggleCartModal }) {
               onDelete={removeItem}
             />
           ))}
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex justify-content-center">

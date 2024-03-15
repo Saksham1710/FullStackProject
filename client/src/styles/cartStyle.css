@@ -1,0 +1,7 @@
+.cart-modal .modal-body {
+  max-height: 80vh; /* Set the desired height for the modal body */
+  overflow-y: auto;
+}
+.cart-item-list {
+  margin-bottom: 20px; /* Add margin at the bottom for spacing */
+}
