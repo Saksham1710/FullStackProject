@@ -13,16 +13,19 @@ function CartModal({ show, toggleCartModal }) {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/v1/users/cart", {
+        const response=await fetch("http://localhost:4000/api/v1/users/cart", {
           method: "GET",
+          credentials: 'include',
           headers: {
             "Content-Type": "application/json",
           },
         });
-        console.log("Response: ", response);
-        const data = await response.json(); // Parse the response as JSON
-        console.log("Data: ", data);
-        if (data.success) {
+         console.log("Response: ", response);
+         const data = await response.json(); // Parse the response as JSON
+         console.log("Data: ", data.data[0]);
+         const fetchedData=JSON.stringify(data.data);
+         console.log("FetchedData: ",fetchedData);
+         if (data.success) {
           setCartItems(data.data); // Set cart items to the array of items from the API response
         } else {
           console.error("Error fetching cart items: ", data.message);
@@ -34,6 +37,8 @@ function CartModal({ show, toggleCartModal }) {
         
     fetchCartItems()
   }, []);
+
+  console.log("Cart ITems: ",cartItems);
   // Function to increase the quantity of an item
   const increaseQuantity = (item) => {
     const updatedCartItems = cartItems.map(cartItem => {

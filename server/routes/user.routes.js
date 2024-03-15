@@ -21,3 +21,6 @@ router.route("/cart").get(verifyJWT,getCartItems);
 
 
 export default router;
+    
+
+//localhost:4000/api/v1/users/cart

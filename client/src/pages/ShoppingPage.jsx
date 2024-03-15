@@ -16,7 +16,7 @@ function ShoppingPage() {
             const fetchCoffee = async() =>{
            try {
              const response = await axios.get("http://localhost:4000/api/v1/coffees");
-             //console.table(response.data);
+             console.log(response.data);
              setCoffeeData(response.data);
            } catch (error) {
             console.log("Error fetching coffee data" + error);
