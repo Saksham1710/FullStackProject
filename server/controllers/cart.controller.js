@@ -60,40 +60,114 @@ const addCoffeeToCart = asyncHandler(async(req,res)=>{
         }
 })
 const addTeaToCart = asyncHandler(async(req,res)=>{
-    const {userId,productId,quantity,mlQuantity,packing,title,image,price,type} = req.body;
+    const {userId,productId,quantity,mlQuantity,packing,title,image,price,type, pricePerPiece} = req.body;
+    console.log("Request body", req.body);
 
-    const item = await Cart.create({
-        userId,
-        teaItem: productId,
-        title,
-        image,
-        price,
-        type,
-        quantity: Number(quantity),
-        mlQuantity,
-        packing,  
-    });
+    //check if the item is already in the cart
+    const itemInCart = await Cart.findOne({ teaItem: productId});
+    console.log("Item in cart", itemInCart);
 
-    if(!item) throw new ApiError(500, "Error adding item to cart");
-    res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));    
+
+
+     // if item in cart lets check if the all the details are the same then increase the quantity of the item
+    if(itemInCart){
+        if(itemInCart.userId == userId && itemInCart.teaItem == productId){
+            console.log("everything is same");
+             itemInCart.quantity = itemInCart.quantity + Number(quantity);
+             itemInCart.price = itemInCart.price + parseFloat(price);
+             await itemInCart.save();
+             return res.status(200).json(new ApiResponse(200, "Item added to cart", { itemInCart }));
+            }else{
+                const item = await Cart.create({
+                    userId,
+                    teaItem: productId,
+                    title,
+                    image,
+                    pricePerPiece,
+                    price,
+                    type,
+                    quantity: Number(quantity),
+                    mlQuantity,
+                    packing,  
+                });
+                console.log("everything is not same");
+            
+                if(!item) throw new ApiError(500, "Error adding item to cart");
+                res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));
+        }}
+        else{
+            const item = await Cart.create({
+                userId,
+                teaItem: productId,
+                title,
+                image,
+                pricePerPiece,
+                price,
+                type,
+                quantity: Number(quantity),
+                mlQuantity,
+                packing,  
+            });
+        
+            if(!item) throw new ApiError(500, "Error adding item to cart");
+            res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));    
+        }
+
 })
 const addBeverageToCart = asyncHandler(async(req,res)=>{
-    const {userId,productId,quantity,mlQuantity,packing,title,image,price,type} = req.body;
+    const {userId,productId,quantity,mlQuantity,packing,title,image,price,type, pricePerPiece} = req.body;
+    console.log("Request body", req.body);
 
-    const item = await Cart.create({
-        userId,
-        beverageItem: productId,
-        title,
-        image,
-        price,
-        type,
-        quantity: Number(quantity),
-        mlQuantity,
-        packing,  
-    });
+    //check if the item is already in the cart
+    const itemInCart = await Cart.findOne({ beverageItem: productId});
+    console.log("Item in cart", itemInCart);
 
-    if(!item) throw new ApiError(500, "Error adding item to cart");
-    res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));    
+
+
+     // if item in cart lets check if the all the details are the same then increase the quantity of the item
+    if(itemInCart){
+        if(itemInCart.userId == userId && itemInCart.beverageItem == productId && itemInCart.mlQuantity == mlQuantity && itemInCart.packing == packing){
+            console.log("everything is same");
+             itemInCart.quantity = itemInCart.quantity + Number(quantity);
+             itemInCart.price = itemInCart.price + parseFloat(price);
+             await itemInCart.save();
+             return res.status(200).json(new ApiResponse(200, "Item added to cart", { itemInCart }));
+            }else{
+                const item = await Cart.create({
+                    userId,
+                    coffeeItem: productId,
+                    title,
+                    image,
+                    pricePerPiece,
+                    price,
+                    type,
+                    quantity: Number(quantity),
+                    mlQuantity,
+                    packing,  
+                });
+                console.log("everything is not same");
+            
+                if(!item) throw new ApiError(500, "Error adding item to cart");
+                res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));
+        }}
+        else{
+            const item = await Cart.create({
+                userId,
+                beverageItem: productId,
+                title,
+                image,
+                pricePerPiece,
+                price,
+                type,
+                quantity: Number(quantity),
+                mlQuantity,
+                packing,  
+            });
+        
+            if(!item) throw new ApiError(500, "Error adding item to cart");
+            res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));    
+        }
+  
 })
 
 // Get all items in the user's cart

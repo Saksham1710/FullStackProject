@@ -38,6 +38,7 @@ const BottledProduct = ({userId}) => {
         productId: product._id,
         title: product.name,
         image: product.image,
+        pricePerPiece: product.price,
         price: (Math.floor(price * quantity * packing * 100) / 100).toFixed(2),
         quantity: quantity,
         mlQuantity: mlQuantity,
