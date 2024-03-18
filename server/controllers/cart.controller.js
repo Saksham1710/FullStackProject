@@ -6,30 +6,37 @@ import { Cart } from "../models/cart.model.js";
 
 //add the item into the DB
 const addCoffeeToCart = asyncHandler(async(req,res)=>{
-    const {userId,productId,quantity,mlQuantity,packing,title,image,price,type} = req.body;
+    const {userId,productId,quantity,mlQuantity,packing,title,image,price,type, pricePerPiece} = req.body;
+    console.log("Request body", req.body);
 
-    //chekc if the item is already in the cart
-    const itemInCart = await Cart.findOne({userId, coffeeItem: productId});
+    //check if the item is already in the cart
+    const itemInCart = await Cart.findOne({ coffeeItem: productId});
     console.log("Item in cart", itemInCart);
+
+
+
      // if item in cart lets check if the all the details are the same then increase the quantity of the item
     if(itemInCart){
-        if(itemInCart.userId === userId && itemInCart.coffeeItem === productId && itemInCart.mlQuantity === mlQuantity && itemInCart.packing === packing && itemInCart.title === title && itemInCart.image === image && itemInCart.price === price && itemInCart.type === type){
+        if(itemInCart.userId == userId && itemInCart.coffeeItem == productId){
             console.log("everything is same");
-            // itemInCart.quantity = itemInCart.quantity + Number(quantity);
-            // await itemInCart.save();
-            // return res.status(200).json(new ApiResponse(200, "Item added to cart", { itemInCart }));
+             itemInCart.quantity = itemInCart.quantity + Number(quantity);
+             itemInCart.price = itemInCart.price + parseFloat(price);
+             await itemInCart.save();
+             return res.status(200).json(new ApiResponse(200, "Item added to cart", { itemInCart }));
             }else{
                 const item = await Cart.create({
                     userId,
                     coffeeItem: productId,
                     title,
                     image,
+                    pricePerPiece,
                     price,
                     type,
                     quantity: Number(quantity),
                     mlQuantity,
                     packing,  
                 });
+                console.log("everything is not same");
             
                 if(!item) throw new ApiError(500, "Error adding item to cart");
                 res.status(201).json(new ApiResponse(201, "Item added to cart", { item }));
@@ -40,6 +47,7 @@ const addCoffeeToCart = asyncHandler(async(req,res)=>{
                 coffeeItem: productId,
                 title,
                 image,
+                pricePerPiece,
                 price,
                 type,
                 quantity: Number(quantity),
@@ -104,17 +112,47 @@ const getCartItems = async (req, res) => {
 
 // Remove an item from the user's cart by its index in the array of items
 const removeFromCart = async (req, res) => {
-    const { index } = req.params;
+    const { itemId } = req.params;
 
-    const cart = await Cart.findOne({ userId: req.user._id });
+    try {
+        // Find the cart by its ID and delete it
+        const deletedCart = await Cart.findOneAndDelete({ _id: itemId });
 
-    if (!cart) throw new ApiError(404, "Cart not found");
+        // Check if the cart exists
+        if (!deletedCart) {
+            throw new ApiError(404, "Cart not found");
+        }
 
-    cart.items.splice(index, 1);
-
-    await cart.save();
-
-    return new ApiResponse(200, "Item removed from cart", { cart });
+        return new ApiResponse(200, "Cart deleted successfully", { cart: deletedCart });
+    } catch (error) {
+        console.error("Error removing cart: ", error);
+        throw new ApiError(500, "Internal server error");
+    }
 };
 
-export { addCoffeeToCart, getCartItems, removeFromCart, addTeaToCart, addBeverageToCart};
+// update the quantity of the item in the cart
+const updateCartQty = async (req, res) => {
+    const { itemId, quantity } = req.params;
+    console.log("Request params", req.params);
+
+
+    // Find the cart
+    const cart = await Cart.findOne({ _id: itemId });
+    //console.log("cart",JSON.stringify(cart));
+    console.log("cart",cart);
+    if (!cart) {
+        throw new ApiError(404, "Cart not found");
+    }
+
+
+
+    // Update the quantity of the item
+    cart.quantity = parseInt(quantity);
+    cart.price = cart.pricePerPiece * parseInt(quantity);
+    await cart.save();
+
+
+     return new ApiResponse(200, "Cart updated", { cart });
+};
+
+export { addCoffeeToCart, getCartItems, removeFromCart, addTeaToCart, addBeverageToCart, updateCartQty};

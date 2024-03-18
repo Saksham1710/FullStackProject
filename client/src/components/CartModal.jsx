@@ -28,6 +28,46 @@ function CartModal({ show, toggleCartModal }) {
       console.error("Error fetching cart items: ", error);
     }
   };
+
+  const updateQuantity = async (itemId, quantity) => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/v1/users/cart/updateQty/${itemId}/${quantity}`, {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (!data.success) {
+        console.error("Error updating quantity: ", data.message);
+      }
+    } catch (error) {
+      console.error("Error updating quantity: ", error);
+    }
+  };
+
+  const removeFromCart = async (itemId) => {
+    try {
+        const response = await fetch(`http://localhost:4000/api/v1/users/cart/remove/${itemId}`, {
+            method: "DELETE",
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const data = await response.json();
+        if (data.success) {
+            console.log("Item removed from cart: ", data.message);
+        } else {
+            console.error("Error removing item from cart: ", data.message);
+        }
+    } catch (error) {
+        console.error("Error removing item from cart: ", error);
+    }
+};
+
+
   
   useEffect(() => {
     if(show){
@@ -47,6 +87,7 @@ function CartModal({ show, toggleCartModal }) {
       return cartItem;
     });
     setCartItems(updatedCartItems);
+    updateQuantity(item._id, item.quantity + 1);
   };
 
   // Function to decrease the quantity of an item
@@ -58,12 +99,13 @@ function CartModal({ show, toggleCartModal }) {
       return cartItem;
     });
     setCartItems(updatedCartItems);
+    updateQuantity(item._id, item.quantity - 1);
   };
-
   // Function to remove an item from the cart
   const removeItem = (itemId) => {
     const updatedCartItems = cartItems.filter(cartItem => cartItem._id !== itemId);
     setCartItems(updatedCartItems);
+    removeFromCart(itemId);
   };
 
   return (
@@ -81,6 +123,7 @@ function CartModal({ show, toggleCartModal }) {
               onIncrease={increaseQuantity}
               onDecrease={decreaseQuantity}
               onDelete={removeItem}
+              onUpdateQuantity={updateQuantity}
             />
           ))}
           </div>

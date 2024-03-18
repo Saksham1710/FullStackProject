@@ -48,6 +48,7 @@ const ProductPageComponent = ({productId,userId}) => {// Extract productId from 
         productId: product._id,
         title: product.title,
         image: product.image,
+        pricePerPiece: product.pricePer10lb,
         price: (Math.floor(product.pricePer10lb * quantity * 100) / 100).toFixed(2),
         packing: 10,
         quantity: quantity,

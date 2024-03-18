@@ -26,6 +26,10 @@ const cartSchema = new mongoose.Schema(
             type: String,
             required:true
         },
+        pricePerPiece: {
+            type: Number,
+            required:true
+        },
         price: {
             type: Number,
             required:true

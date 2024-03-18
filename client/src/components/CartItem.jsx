@@ -1,7 +1,27 @@
-import React from 'react';
+import React,{useState,  useEffect} from 'react';
 import { MDBIcon } from 'mdb-react-ui-kit';
 
-const CartItem = ({ item, onIncrease, onDecrease, onDelete }) => {
+const CartItem = ({ item, onIncrease, onDecrease, onDelete, onUpdateQuantity }) => {
+  const [totalPrice, setTotalPrice] = useState(item.price * item.quantity);
+
+
+  useEffect(() => {
+    setTotalPrice(item.price * item.quantity);
+  }, [item.quantity]);
+  // Function to handle increasing quantity
+  const handleIncrease = () => {
+    onIncrease(item);
+    // Call onUpdateQuantity with the new quantity
+    onUpdateQuantity(item._id, item.quantity + 1);
+  };
+
+  // Function to handle decreasing quantity
+  const handleDecrease = () => {
+    onDecrease(item);
+    // Call onUpdateQuantity with the new quantity
+    onUpdateQuantity(item._id, item.quantity - 1);
+  };
+
   return (
     <div className="cart-item" style={{ display: 'flex', alignItems: 'center', borderBottom: '1px solid #ccc', padding: '10px 0' }}>
       <div style={{ marginRight: '10px' }}>
@@ -15,9 +35,9 @@ const CartItem = ({ item, onIncrease, onDecrease, onDelete }) => {
         <span className="weight">Weight: {item.packing}</span>
         <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <span style={{marginRight:'10px'}}>Qty:</span>
-          <button onClick={() => onDecrease(item)}>-</button>
+          <button onClick={handleDecrease}>-</button>
           <span className="quantity" style={{ margin: '0 10px' }}>{item.quantity}</span>
-          <button onClick={() => onIncrease(item)}>+</button>
+          <button onClick={handleIncrease}>+</button>
           <MDBIcon icon="trash-alt" style={{ marginLeft: 'auto', cursor: 'pointer', }} onClick={() => onDelete(item._id)} />
         </div>
       </div>
