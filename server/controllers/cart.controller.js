@@ -221,9 +221,16 @@ const updateCartQty = async (req, res) => {
 
 
     // Update the quantity of the item
+    //if item type is beverage then quantity will packing*quantity and price will pricePerPiece*packing*quantity
+    if(cart.type == "bottled"){
+        cart.quantity = parseInt(quantity);
+        cart.price = cart.pricePerPiece * parseInt(quantity) * cart.packing;
+        await cart.save();
+    }else{
     cart.quantity = parseInt(quantity);
     cart.price = cart.pricePerPiece * parseInt(quantity);
     await cart.save();
+    }
 
 
      return new ApiResponse(200, "Cart updated", { cart });

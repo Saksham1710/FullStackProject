@@ -32,7 +32,15 @@ const CartItem = ({ item, onIncrease, onDecrease, onDelete, onUpdateQuantity }) 
           <span className="name" style={{ fontWeight: 'bold',fontSize:'20px',color:"#533e2d" }}>{item.title}</span>
           <span className="price" style={{color:"#533e2d",fontSize:'22px'}}>${item.price.toFixed(2)}</span>
         </div>
-        <span className="weight">Weight: {item.packing} lb</span>
+        {/* if product type is bottled then instead of weight it should display volume and packing */}
+        {item.type === 'bottled' ? (
+          <div>
+            <span className="weight" style={{ color: "#533e2d" }}>Volume: {item.mlQuantity} </span><br/>
+            <span className="packing" style={{ color: "#533e2d" }}>Packing: {item.packing} </span>
+          </div>
+        ) : (
+          <span className="weight" style={{ color: "#533e2d" }}>Weight: {item.packing} lb</span>
+        )}
         <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <span style={{marginRight:'10px'}}>Qty:</span>
           <button onClick={handleDecrease}>-</button>
