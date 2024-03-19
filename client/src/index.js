@@ -13,6 +13,7 @@ import AboutUs from './pages/AboutUs.jsx';
 import ProductPage from './pages/ProductPage.jsx';
 import ProductPageBottle from './pages/ProductPageBottle.jsx';
 import ProductPageTea from './pages/ProductPageTea.jsx';
+import FinalCart from './pages/FinalCartPage.jsx';
 
 const router = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
     {
         path: "/api/v1/teas/:productId",
         element: <ProductPageTea />,
+    },
+    {
+        path: "/api/v1/users/cart/finalPage",
+        element: <FinalCart />
     },
     {
         path: "*",
