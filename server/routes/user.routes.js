@@ -18,6 +18,7 @@ router.route("/cart/updateQty/:itemId/:quantity").post(verifyJWT,updateCartQty);
 router.route("/cart/remove/:itemId").delete(verifyJWT,removeFromCart);
 
 
+
 // secured routes
 // router.route("/refresh-token").post(refreshAccessToken)
 

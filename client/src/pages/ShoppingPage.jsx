@@ -15,7 +15,7 @@ function ShoppingPage() {
     useEffect(()=> {
             const fetchCoffee = async() =>{
            try {
-             const response = await axios.get("https://brewboxbakcend.vercel.app/api/v1/coffees");
+             const response = await axios.get("http://localhost:4000/api/v1/coffees");
              console.log(response.data);
              setCoffeeData(response.data);
            } catch (error) {

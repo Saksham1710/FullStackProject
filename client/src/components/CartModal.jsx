@@ -144,7 +144,7 @@ useEffect(() => {
         </Modal.Body>
         <Modal.Footer style={{ display: "flex", justifyContent: "space-between" }}>
   <div style={{ fontSize: "20px", color: "red" }}>Total Price: ${cartTotalPrice.toFixed(2)}</div>
-  <Button variant="danger" onClick={toggleCartModal}>
+  <Button variant="danger" onClick={toggleCartModal} href="/api/v1/checkout">
     Checkout
   </Button>
 </Modal.Footer>
