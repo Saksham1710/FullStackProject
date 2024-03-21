@@ -9,7 +9,7 @@ dotenv.config({
 connectDB();
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://deploybackendbrewbox.vercel.app',
 }));
 
 // Start server
