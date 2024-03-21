@@ -12,6 +12,9 @@ app.use(cors({
     origin: 'https://deploybackendbrewbox.vercel.app',
 }));
 
+app.get("/", (req, res) => {
+    res.send("Hello World");
+});
 // Start server
 app.listen(process.env.PORT, () => {
     console.log(`Listening to ${process.env.PORT}`);
