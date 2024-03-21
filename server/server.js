@@ -12,6 +12,9 @@ app.use(cors({
     origin: 'http://localhost:3000',
 }));
 
+app.get("/", (req, res) => {
+    res.send("Hello World");
+});
 // Start server
 app.listen(process.env.PORT, () => {
     console.log(`Listening to ${process.env.PORT}`);
