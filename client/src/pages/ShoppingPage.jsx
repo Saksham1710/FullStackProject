@@ -36,10 +36,17 @@ function ShoppingPage() {
         };
         fetchTea();
     },[]);
+    const config = {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+        }
+      };
+      
     useEffect(()=> {
             const fetchBeverages = async() =>{
            try {
-             const response = await axios.get("https://fullstackproject-production-db0c.up.railway.app/api/v1/beverages");
+             const response = await axios.get("https://fullstackproject-production-db0c.up.railway.app/api/v1/beverages",config);
              console.table("Data fetched",response.data);
              setBeveragesData(response.data);
            } catch (error) {
