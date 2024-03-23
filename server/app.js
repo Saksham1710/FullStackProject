@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 
 app.use((req, res, next) => {
+
     res.setHeader('Access-Control-Allow-Origin', 'https://fullstackproject-production-db0c.up.railway.app');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
