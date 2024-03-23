@@ -10,7 +10,7 @@ dotenv.config({
 connectDB();
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: *,
 }));
 
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
