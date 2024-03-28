@@ -5,11 +5,12 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const corsOptions = {
-    origin: '*', 
+    origin: 'https://brewbox-hdrzqejz2-saksham1710s-projects.vercel.app', 
     methods: 'GET, POST, PUT, PATCH, DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 };
+
 
 app.use(cors(corsOptions));
 
