@@ -44,6 +44,10 @@ const storeItems = new Map([
     }
   })
 
+  app.get("/",(req,res)=>{
+    res.send("Welcome to the server")
+})
+
 // Start server
 app.listen(process.env.PORT, () => {
     console.log(`Listening to ${process.env.PORT}`);
