@@ -15,7 +15,7 @@ function ShoppingPage() {
     useEffect(()=> {
             const fetchCoffee = async() =>{
            try {
-             const response = await axios.get("https://full-stack-project-backend-4t3j4std4-saksham1710s-projects.vercel.app/api/v1/coffees");
+             const response = await axios.get("https://full-stack-project-backend-4t3j4std4-saksham1710s-projects.vercel.app/api/v1/coffees",{withCredentials:true});
              console.log("Data Fetched: ",response.data);
              setCoffeeData(response.data);
            } catch (error) {
