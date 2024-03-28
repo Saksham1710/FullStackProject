@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const corsOptions = {
-    origin: 'https://fullstackproject-production-0130.up.railway.app', // Your frontend URL
+    origin: 'http://localhost:3000', // Your frontend URL
     methods: 'GET, POST, PUT, PATCH, DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

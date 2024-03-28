@@ -46,7 +46,7 @@ function ShoppingPage() {
     useEffect(()=> {
             const fetchBeverages = async() =>{
            try {
-             const response = await axios.get("https://fullstackproject-production-db0c.up.railway.app/api/v1/beverages",config);
+             const response = await axios.get("http://localhost:4000/api/v1/beverages");
              console.table("Data fetched",response.data);
              setBeveragesData(response.data);
            } catch (error) {
