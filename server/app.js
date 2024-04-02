@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const corsOptions = {
-    origin: 'https://brewbox-hdrzqejz2-saksham1710s-projects.vercel.app', 
+    origin: 'http://localhost:3000', 
     methods: 'GET, POST, PUT, PATCH, DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

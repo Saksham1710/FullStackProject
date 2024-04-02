@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser, loginUser, getCurrentUser, logoutUser } from "../controllers/user.controller.js";
+import { registerUser, loginUser, getCurrentUser, logoutUser, getAddress, addAddress } from "../controllers/user.controller.js";
 import { addCoffeeToCart, addTeaToCart, addBeverageToCart, getCartItems, updateCartQty, removeFromCart } from "../controllers/cart.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -16,6 +16,8 @@ router.route("/beverage/cart/add",verifyJWT).post(addBeverageToCart);
 router.route("/cart").get(verifyJWT,getCartItems);
 router.route("/cart/updateQty/:itemId/:quantity").post(verifyJWT,updateCartQty);
 router.route("/cart/remove/:itemId").delete(verifyJWT,removeFromCart);
+router.route("/get-address").get(verifyJWT,getAddress);
+router.route("/add-address").post(verifyJWT,addAddress);
 
 
 

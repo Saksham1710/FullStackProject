@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
+import { Address } from "../models/address.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
@@ -249,5 +250,40 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, JSON.stringify(user), "User details fetched successfully",true));
   });
 
+  const getAddress = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const addresses = await Address.find({ userId: userId });
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser}
+    // If no existing address for the user, return an error
+    if (!addresses.length) {
+        throw new ApiError(404, "No address found");
+    }
+
+    res.status(200).json(new ApiResponse(200, addresses, "Addresses fetched successfully"));
+});
+
+const addAddress = asyncHandler(async (req, res) => {
+    const { houseNumber, street, city, state, country, zip } = req.body;
+    const userId = req.user._id;
+
+    let address = await Address.findOne({ userId: userId });
+
+    // If no existing address for the user, create a new one
+    if (!address) {
+        address = await Address.create({
+            userId,
+            houseNumber,
+            street,
+            city,
+            state,
+            country,
+            zip
+        });
+        res.status(201).json(new ApiResponse(201, address, "Address saved successfully"));
+    } else {
+        throw new ApiError(400, "Address already exists");
+    }
+});
+
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser, getAddress, addAddress}

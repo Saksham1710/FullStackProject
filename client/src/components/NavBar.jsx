@@ -25,10 +25,10 @@ export default function NavBar() {
             'Content-Type': 'application/json',
           },
         });
-        console.log(response);
+        //console.log(response);
         if (response.ok) {
           const responseData = await response.json();
-          console.log('User login status:', responseData);
+          //console.log('User login status:', responseData);
           setIsLoggedIn(true);
           
           // Parse the data field
@@ -36,7 +36,7 @@ export default function NavBar() {
           
           const initials = (userData.firstName.charAt(0) + userData.lastName.charAt(0));
           setUserInitials(initials.toUpperCase());
-          console.log('User initials:', initials);
+          //console.log('User initials:', initials);
           //setUserAvatar(data.user.avatar);
         }
       } catch (error) {

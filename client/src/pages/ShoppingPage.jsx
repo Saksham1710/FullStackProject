@@ -12,11 +12,12 @@ function ShoppingPage() {
     const [teas, setTeaData] = useState([]); // Create a state variable to store the tea data
     const [bottledBeverages, setBeveragesData] = useState([]); // Create a state variable to store the bottled beverages data
 
+    const url="http://localhost:4000/";
     useEffect(()=> {
             const fetchCoffee = async() =>{
            try {
-             const response = await axios.get("https://full-stack-project-backend-4t3j4std4-saksham1710s-projects.vercel.app/api/v1/coffees",{withCredentials:true});
-             console.log("Data Fetched: ",response.data);
+             const response = await axios.get(`${url}api/v1/coffees`);
+             //console.log("Data Fetched: ",response.data);
              setCoffeeData(response.data);
            } catch (error) {
             console.log("Error fetching coffee data" + error);
@@ -27,7 +28,7 @@ function ShoppingPage() {
     useEffect(()=> {
             const fetchTea = async() =>{
            try {
-             const response = await axios.get("http://localhost:4000/api/v1/teas");
+             const response = await axios.get(`${url}api/v1/teas`);
              //console.table(response.data);
              setTeaData(response.data);
            } catch (error) {
@@ -36,18 +37,12 @@ function ShoppingPage() {
         };
         fetchTea();
     },[]);
-    const config = {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-        }
-      };
       
     useEffect(()=> {
             const fetchBeverages = async() =>{
            try {
-             const response = await axios.get("http://localhost:4000/api/v1/beverages");
-             console.table("Data fetched",response.data);
+             const response = await axios.get(`${url}api/v1/beverages`);
+             //console.table("Data fetched",response.data);
              setBeveragesData(response.data);
            } catch (error) {
             console.log("Error fetching coffee data" + error);

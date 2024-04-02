@@ -1,283 +1,177 @@
-import {
-    MDBBtn,
-    MDBCard,
-    MDBCardBody,
-    MDBCardImage,
-    MDBCol,
-    MDBContainer,
-    MDBIcon,
-    MDBInput,
-    MDBRow,
-    MDBTypography,
-    } from "mdb-react-ui-kit";
-    import React from "react";
-    import "../styles/FinalCart.css";
-    import Footer from "../components/Footer";
-    import NavBar from "../components/NavBar";
-    
-    export default function FinalCart() {
+import React, { useState, useEffect } from "react";
+import "../styles/FinalCart.css";
+import Footer from "../components/Footer";
+import NavBar from "../components/NavBar";
+import AddressModal from "../components/AddressModal";
+
+export default function FinalCart() {
+  const [cartItems, setCartItems] = useState([]); // Create a state variable to store the cart items
+  const [showAddressModal, setShowAddressModal] = useState(false); // Create a state variable to control the visibility of the address modal
+  const [addresses, setAddresses] = useState([]); // To store fetched addresses
+  const [selectedAddress, setSelectedAddress] = useState(null); // To store the user's selected address
+  const [showAddressForm, setShowAddressForm] = useState(false); // To toggle the new address form
+
+  // Inside your component
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:4000/api/v1/users/cart",
+          {
+            method: "GET",
+            credentials: "include", // Necessary for sending cookies in cross-origin requests
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const responseData = await response.json();
+          setCartItems(responseData.data);
+        } else {
+          // Handle non-2xx responses
+          console.error("Failed to fetch cart items, status:", response.status);
+        }
+      } catch (error) {
+        console.error("Error fetching cart items:", error);
+      }
+    };
+
+    fetchCartItems();
+  }, []); // Empty dependency array means this effect runs once after the initial render
+
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:4000/api/v1/users/addresses",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setAddresses(data.addresses);
+          // Automatically select the first address if available
+          if (data.addresses.length > 0) {
+            setSelectedAddress(data.addresses[0]);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching addresses:", error);
+      }
+    };
+    fetchAddresses();
+  }, []); // Dependency array is empty to fetch only on component mount
+
+  const handleAddAddress = async (event) => {
+    event.preventDefault();
+    setShowAddressModal(!showAddressModal); // Close the modal after adding the address
+  };
+  
+
+  if (!cartItems || cartItems.length === 0) {
+    console.log("showAddressModal:", showAddressModal);
     return (
-        <div>
+      <div>
         <NavBar />
-    <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
-      <MDBContainer className="py-5 h-100">
-        <MDBRow className="justify-content-center align-items-center h-100">
-          <MDBCol>
-            <MDBCard>
-              <MDBCardBody className="p-4">
-                <MDBRow>
-                  <MDBCol lg="7">
-                    <MDBTypography tag="h5">
-                      <a href="#!" className="text-body">
-                        <MDBIcon fas icon="long-arrow-alt-left me-2" /> Continue
-                        shopping
-                      </a>
-                    </MDBTypography>
-    
-                    <hr />
-    
-                    <div className="d-flex justify-content-between align-items-center mb-4">
-                      <div>
-                        <p className="mb-1">Shopping cart</p>
-                        <p className="mb-0">You have 4 items in your cart</p>
-                      </div>
-                      <div>
-                        <p>
-                          <span className="text-muted">Sort by:</span>
-                          <a href="#!" className="text-body">
-                            price
-                            <MDBIcon fas icon="angle-down mt-1" />
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-    
-                    <MDBCard className="mb-3">
-                      <MDBCardBody>
-                        <div className="d-flex justify-content-between">
-                          <div className="d-flex flex-row align-items-center">
-                            <div>
-                              <MDBCardImage
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                fluid className="rounded-3" style={{ width: "65px" }}
-                                alt="Shopping item" />
-                            </div>
-                            <div className="ms-3">
-                              <MDBTypography tag="h5">
-                                Iphone 11 pro
-                              </MDBTypography>
-                              <p className="small mb-0">256GB, Navy Blue</p>
-                            </div>
-                          </div>
-                          <div className="d-flex flex-row align-items-center">
-                            <div style={{ width: "50px" }}>
-                              <MDBTypography tag="h5" className="fw-normal mb-0">
-                                2
-                              </MDBTypography>
-                            </div>
-                            <div style={{ width: "80px" }}>
-                              <MDBTypography tag="h5" className="mb-0">
-                                $900
-                              </MDBTypography>
-                            </div>
-                            <a href="#!" style={{ color: "#cecece" }}>
-                              <MDBIcon fas icon="trash-alt" />
-                            </a>
-                          </div>
-                        </div>
-                      </MDBCardBody>
-                    </MDBCard>
-    
-                    <MDBCard className="mb-3">
-                      <MDBCardBody>
-                        <div className="d-flex justify-content-between">
-                          <div className="d-flex flex-row align-items-center">
-                            <div>
-                              <MDBCardImage
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img2.webp"
-                                fluid className="rounded-3" style={{ width: "65px" }}
-                                alt="Shopping item" />
-                            </div>
-                            <div className="ms-3">
-                              <MDBTypography tag="h5">
-                                Samsung galaxy Note 10
-                              </MDBTypography>
-                              <p className="small mb-0">256GB, Navy Blue</p>
-                            </div>
-                          </div>
-                          <div className="d-flex flex-row align-items-center">
-                            <div style={{ width: "50px" }}>
-                              <MDBTypography tag="h5" className="fw-normal mb-0">
-                                2
-                              </MDBTypography>
-                            </div>
-                            <div style={{ width: "80px" }}>
-                              <MDBTypography tag="h5" className="mb-0">
-                                $900
-                              </MDBTypography>
-                            </div>
-                            <a href="#!" style={{ color: "#cecece" }}>
-                              <MDBIcon fas icon="trash-alt" />
-                            </a>
-                          </div>
-                        </div>
-                      </MDBCardBody>
-                    </MDBCard>
-    
-                    <MDBCard className="mb-3">
-                      <MDBCardBody>
-                        <div className="d-flex justify-content-between">
-                          <div className="d-flex flex-row align-items-center">
-                            <div>
-                              <MDBCardImage
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img3.webp"
-                                fluid className="rounded-3" style={{ width: "65px" }}
-                                alt="Shopping item" />
-                            </div>
-                            <div className="ms-3">
-                              <MDBTypography tag="h5">
-                                Canon EOS M50
-                              </MDBTypography>
-                              <p className="small mb-0">Onyx Black</p>
-                            </div>
-                          </div>
-                          <div className="d-flex flex-row align-items-center">
-                            <div style={{ width: "50px" }}>
-                              <MDBTypography tag="h5" className="fw-normal mb-0">
-                                1
-                              </MDBTypography>
-                            </div>
-                            <div style={{ width: "80px" }}>
-                              <MDBTypography tag="h5" className="mb-0">
-                                $1199
-                              </MDBTypography>
-                            </div>
-                            <a href="#!" style={{ color: "#cecece" }}>
-                              <MDBIcon fas icon="trash-alt" />
-                            </a>
-                          </div>
-                        </div>
-                      </MDBCardBody>
-                    </MDBCard>
-    
-                    <MDBCard className="mb-3">
-                      <MDBCardBody>
-                        <div className="d-flex justify-content-between">
-                          <div className="d-flex flex-row align-items-center">
-                            <div>
-                              <MDBCardImage
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img4.webp"
-                                fluid className="rounded-3" style={{ width: "65px" }}
-                                alt="Shopping item" />
-                            </div>
-                            <div className="ms-3">
-                              <MDBTypography tag="h5">
-                                MacBook Pro
-                              </MDBTypography>
-                              <p className="small mb-0">1TB, Graphite</p>
-                            </div>
-                          </div>
-                          <div className="d-flex flex-row align-items-center">
-                            <div style={{ width: "50px" }}>
-                              <MDBTypography tag="h5" className="fw-normal mb-0">
-                                1
-                              </MDBTypography>
-                            </div>
-                            <div style={{ width: "80px" }}>
-                              <MDBTypography tag="h5" className="mb-0">
-                                $1799
-                              </MDBTypography>
-                            </div>
-                            <a href="#!" style={{ color: "#cecece" }}>
-                              <MDBIcon fas icon="trash-alt" />
-                            </a>
-                          </div>
-                        </div>
-                      </MDBCardBody>
-                    </MDBCard>
-                  </MDBCol>
-    
-                  <MDBCol lg="5" >
-                    <MDBCard className="bg-primary text-white rounded-3">
-                      <MDBCardBody style={{background:"#533e2d"}}>
-                        <div className="d-flex justify-content-between align-items-center mb-4">
-                          <MDBTypography tag="h5" className="mb-0">
-                            Card details
-                          </MDBTypography>
-                          <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
-                            fluid className="rounded-3" style={{ width: "45px" }} alt="Avatar" />
-                        </div>
-    
-                        <p className="small">Card type</p>
-                        <a href="#!" type="submit" className="text-white">
-                          <MDBIcon fab icon="cc-mastercard fa-2x me-2" />
-                        </a>
-                        <a href="#!" type="submit" className="text-white">
-                          <MDBIcon fab icon="cc-visa fa-2x me-2" />
-                        </a>
-                        <a href="#!" type="submit" className="text-white">
-                          <MDBIcon fab icon="cc-amex fa-2x me-2" />
-                        </a>
-                        <a href="#!" type="submit" className="text-white">
-                          <MDBIcon fab icon="cc-paypal fa-2x me-2" />
-                        </a>
-    
-                        <form className="mt-4">
-                          <MDBInput className="mb-4" label="Cardholder's Name" type="text" size="lg"
-                            placeholder="Cardholder's Name" contrast />
-    
-                          <MDBInput className="mb-4" label="Card Number" type="text" size="lg"
-                            minLength="19" maxLength="19" placeholder="1234 5678 9012 3457" contrast />
-    
-                          <MDBRow className="mb-4">
-                            <MDBCol md="6">
-                              <MDBInput className="mb-4" label="Expiration" type="text" size="lg"
-                                minLength="7" maxLength="7" placeholder="MM/YYYY" contrast />
-                            </MDBCol>
-                            <MDBCol md="6">
-                              <MDBInput className="mb-4" label="Cvv" type="text" size="lg" minLength="3"
-                                maxLength="3" placeholder="&#9679;&#9679;&#9679;" contrast />
-                            </MDBCol>
-                          </MDBRow>
-                        </form>
-    
-                        <hr />
-    
-                        <div className="d-flex justify-content-between">
-                          <p className="mb-2">Subtotal</p>
-                          <p className="mb-2">$4798.00</p>
-                        </div>
-    
-                        <div className="d-flex justify-content-between">
-                          <p className="mb-2">Shipping</p>
-                          <p className="mb-2">$20.00</p>
-                        </div>
-    
-                        <div className="d-flex justify-content-between">
-                          <p className="mb-2">Total(Incl. taxes)</p>
-                          <p className="mb-2">$4818.00</p>
-                        </div>
-    
-                        <MDBBtn color="info" block size="lg">
-                          <div className="d-flex justify-content-between">
-                            <span>$4818.00</span>
-                            <span>
-                              Checkout{" "}
-                              <i className="fas fa-long-arrow-alt-right ms-2"></i>
-                            </span>
-                          </div>
-                        </MDBBtn>
-                      </MDBCardBody>
-                    </MDBCard>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
-    </section>
-    <Footer />
-    </div>
+        <p>No items in the cart.</p>
+        <Footer />
+      </div>
     );
-    }
+  }
+
+  // Calculate total price
+  const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
+  const taxRate = 0.12; // Assuming 10% tax rate
+  const taxes = totalPrice * taxRate;
+  const subtotal = totalPrice + taxes;
+  console.log("showAddressModal:", showAddressModal);
+
+  return (
+    <div>
+      <NavBar />
+
+      <div className="checkout-container">
+        <div className="cart-items-container col-8">
+          <h2>Cart Items</h2>
+          <ul className="cart-items">
+            {cartItems.map((item, index) => (
+              <li key={index}>
+                <div className="cart-item">
+                  <img src={item.image} alt={item.title} />
+                  <div className="item-details">
+                    <h4>{item.title}</h4>
+                    <p>${item.price.toFixed(2)}</p>
+                    <p>Quantity: {item.quantity}</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="checkout-summary-container col-4">
+          <div className="checkout-summary">
+            <h2>Order Summary</h2>
+            <div className="summary-box">
+              <div className="subtotal">
+                <span>Before Taxes:</span>
+                <span>${totalPrice.toFixed(2)}</span>
+              </div>
+              <div className="taxes">
+                <span>Taxes:</span>
+                <span>${taxes.toFixed(2)}</span>
+              </div>
+              <div className="total">
+                <span>Total Payment:</span>
+                <span>${subtotal.toFixed(2)}</span>
+              </div>
+            </div>
+            <div className="payment-options">
+              <button>Pay with Credit Card</button>
+              <button>Pay with PayPal</button>
+            </div>
+          </div>
+          <div className="checkout-summary">
+            {addresses.length > 0 && !showAddressForm ? (
+              <div>
+                <h3>Select an Address</h3>
+                <select
+                  onChange={(e) => setSelectedAddress(e.target.value)}
+                  value={selectedAddress}
+                >
+                  {addresses.map((address, index) => (
+                    <option key={index} value={address}>
+                      {address}
+                    </option>
+                  ))}
+                </select>
+                <button onClick={() => setShowAddressModal(true)}> {/* Show the modal when this button is clicked */}
+                  Add New Address
+                </button>
+              </div>
+            ) : (
+              <div>
+                <h3>No Address Found</h3>
+                
+                <form onSubmit={handleAddAddress}>
+                  <button type="submit" id="address-btn" style={{background:'transparent', color:'black', border:'2px solid'}}>Add Address</button>
+                </form>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      
+      {/* Render the AddressModal component */}
+      <AddressModal show={showAddressModal} handleClose={() => setShowAddressModal(false)} />
+              
+      <Footer />
+    </div>
+  );
+}
