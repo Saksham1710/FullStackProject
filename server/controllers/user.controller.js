@@ -267,10 +267,11 @@ const addAddress = asyncHandler(async (req, res) => {
     const userId = req.user._id;
 
     let address = await Address.findOne({ userId: userId });
+    let addressData;
 
     // If no existing address for the user, create a new one
-    if (!address) {
-        address = await Address.create({
+    if (address) {
+        addressData = await Address.create({
             userId,
             houseNumber,
             street,
@@ -278,9 +279,22 @@ const addAddress = asyncHandler(async (req, res) => {
             state,
             country,
             zip
-        });
-        res.status(201).json(new ApiResponse(201, address, "Address saved successfully"));
-    } else {
+        })
+        res.status(201).json(new ApiResponse(201, addressData, "New Address saved successfully"));
+    } 
+    else if (!address) {
+        addressData = await Address.create({
+            userId,
+            houseNumber,
+            street,
+            city,
+            state,
+            country,
+            zip
+        })
+        res.status(201).json(new ApiResponse(201, addressData, "First Address saved successfully"));
+    }
+     else {
         throw new ApiError(400, "Address already exists");
     }
 });

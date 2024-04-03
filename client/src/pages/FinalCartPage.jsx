@@ -3,15 +3,15 @@ import "../styles/FinalCart.css";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import AddressModal from "../components/AddressModal";
+import Select from "react-select"; // Import React-Select
 
 export default function FinalCart() {
-  const [cartItems, setCartItems] = useState([]); // Create a state variable to store the cart items
-  const [showAddressModal, setShowAddressModal] = useState(false); // Create a state variable to control the visibility of the address modal
-  const [addresses, setAddresses] = useState([]); // To store fetched addresses
-  const [selectedAddress, setSelectedAddress] = useState(null); // To store the user's selected address
-  const [showAddressForm, setShowAddressForm] = useState(false); // To toggle the new address form
+  const [cartItems, setCartItems] = useState([]);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [showAddressForm, setShowAddressForm] = useState(false);
 
-  // Inside your component
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
@@ -19,7 +19,7 @@ export default function FinalCart() {
           "http://localhost:4000/api/v1/users/cart",
           {
             method: "GET",
-            credentials: "include", // Necessary for sending cookies in cross-origin requests
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
             },
@@ -30,8 +30,10 @@ export default function FinalCart() {
           const responseData = await response.json();
           setCartItems(responseData.data);
         } else {
-          // Handle non-2xx responses
-          console.error("Failed to fetch cart items, status:", response.status);
+          console.error(
+            "Failed to fetch cart items, status:",
+            response.status
+          );
         }
       } catch (error) {
         console.error("Error fetching cart items:", error);
@@ -39,13 +41,13 @@ export default function FinalCart() {
     };
 
     fetchCartItems();
-  }, []); // Empty dependency array means this effect runs once after the initial render
+  }, []);
 
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/v1/users/addresses",
+          "http://localhost:4000/api/v1/users/get-address",
           {
             method: "GET",
             credentials: "include",
@@ -56,27 +58,21 @@ export default function FinalCart() {
         );
         if (response.ok) {
           const data = await response.json();
-          setAddresses(data.addresses);
-          // Automatically select the first address if available
-          if (data.addresses.length > 0) {
-            setSelectedAddress(data.addresses[0]);
-          }
+          setAddresses(data.data);
         }
       } catch (error) {
         console.error("Error fetching addresses:", error);
       }
     };
     fetchAddresses();
-  }, []); // Dependency array is empty to fetch only on component mount
+  }, []);
 
   const handleAddAddress = async (event) => {
     event.preventDefault();
-    setShowAddressModal(!showAddressModal); // Close the modal after adding the address
+    setShowAddressModal(!showAddressModal);
   };
-  
 
   if (!cartItems || cartItems.length === 0) {
-    console.log("showAddressModal:", showAddressModal);
     return (
       <div>
         <NavBar />
@@ -86,17 +82,14 @@ export default function FinalCart() {
     );
   }
 
-  // Calculate total price
   const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
-  const taxRate = 0.12; // Assuming 10% tax rate
+  const taxRate = 0.12;
   const taxes = totalPrice * taxRate;
   const subtotal = totalPrice + taxes;
-  console.log("showAddressModal:", showAddressModal);
 
   return (
     <div>
       <NavBar />
-
       <div className="checkout-container">
         <div className="cart-items-container col-8">
           <h2>Cart Items</h2>
@@ -141,36 +134,45 @@ export default function FinalCart() {
             {addresses.length > 0 && !showAddressForm ? (
               <div>
                 <h3>Select an Address</h3>
-                <select
-                  onChange={(e) => setSelectedAddress(e.target.value)}
+                <Select
+                  options={addresses.map((address) => ({
+                    value: address._id,
+                    label: `${address.houseNumber}, ${address.street}, ${address.city}, ${address.state}, ${address.country}`,
+                  }))}
+                  onChange={(selectedOption) =>
+                    setSelectedAddress(selectedOption.value)
+                  }
                   value={selectedAddress}
-                >
-                  {addresses.map((address, index) => (
-                    <option key={index} value={address}>
-                      {address}
-                    </option>
-                  ))}
-                </select>
-                <button onClick={() => setShowAddressModal(true)}> {/* Show the modal when this button is clicked */}
+                />
+                <button onClick={() => setShowAddressModal(true)}>
                   Add New Address
                 </button>
               </div>
             ) : (
               <div>
                 <h3>No Address Found</h3>
-                
                 <form onSubmit={handleAddAddress}>
-                  <button type="submit" id="address-btn" style={{background:'transparent', color:'black', border:'2px solid'}}>Add Address</button>
+                  <button
+                    type="submit"
+                    id="address-btn"
+                    style={{
+                      background: "transparent",
+                      color: "black",
+                      border: "2px solid",
+                    }}
+                  >
+                    Add Address
+                  </button>
                 </form>
               </div>
             )}
           </div>
         </div>
       </div>
-      
-      {/* Render the AddressModal component */}
-      <AddressModal show={showAddressModal} handleClose={() => setShowAddressModal(false)} />
-              
+      <AddressModal
+        show={showAddressModal}
+        handleClose={() => setShowAddressModal(false)}
+      />
       <Footer />
     </div>
   );

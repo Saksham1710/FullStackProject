@@ -4,13 +4,38 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 function AddressModal({ show, handleClose }) {
+  const [userId, setUserId] = useState(''); // State to store the user's ID
+    //fetch the current user
+    const fetchUser = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/api/v1/users/current-user', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                const responseData = await response.json();
+                const parseData= JSON.parse(responseData.data);
+                setUserId(parseData._id);
+                console.log('User ID:', userId);
+                
+            }
+        } catch (error) {
+            console.error('Error fetching user login status:', error);
+        }
+    }
+    fetchUser();
+
   const [formData, setFormData] = useState({
+    userId:"",
     houseNumber: "",
     street: "",
     city: "",
     state: "",
-    country: "",
     zip: "",
+    country: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,27 +44,9 @@ function AddressModal({ show, handleClose }) {
 
   const handleSubmitAddress = async () => {
     try {
-    //   const houseNumber = document.getElementById("houseNumber").value;
-    //   console.log("houseNumber", houseNumber);
-    //   const street = document.getElementById("street").value;
-    //   console.log("street", street);
-    //   const city = document.getElementById("city").value;
-    //   console.log("city", city);
-    //   const state = formData.state;
-    //   console.log("state", state);
-    //   const zip = document.getElementById("zip").value;
-    //   console.log("zip:", zip);
-    //   const country = document.getElementById("country").value;
-    //   console.log("country: ", country);
-    const { houseNumber, street, city, state, zip, country } = formData;
-    console.log("houseNumber", houseNumber);
-      console.log("street", street);
-      console.log("city", city);
-      console.log("state", state);
-      console.log("zip:", zip);
-      console.log("country: ", country);
-
+      const { userId,houseNumber, street, city, state, zip, country } = formData;
       const data = {
+        userId,
         houseNumber,
         street,
         city,
@@ -50,20 +57,22 @@ function AddressModal({ show, handleClose }) {
 
       console.log("formData:", data);
 
-      //   const response = await fetch("http://localhost:4000/api/v1/users/add-address", {
-      //     method: "POST",
-      //     credentials: 'include',
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(formData)
-      //   });
-      //   const data = await response.json();
-      //   if (data.success) {
-      //     console.log("Address added successfully");
-      //   } else {
-      //     console.error("Error adding address: ", data.message);
-      //   }
+        const response = await fetch("http://localhost:4000/api/v1/users/add-address", {
+          method: "POST",
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data)
+        });
+        const info = await response.json();
+        console.log("Response: ", info);
+        if (info.success) {
+          console.log("Address added successfully");
+          handleClose();
+        } else {
+          console.error("Error adding address: ", info.message);
+        }
     } catch (error) {
       console.error("Error adding address: ", error);
     }
@@ -83,7 +92,9 @@ function AddressModal({ show, handleClose }) {
                 type="text"
                 placeholder="apt/ suite/ house number"
                 autoFocus
-                id="houseNumber"
+                name="houseNumber"
+                value={formData.houseNumber} // Set value from formData
+                onChange={handleChange} // Set onChange to handleChange
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -91,13 +102,20 @@ function AddressModal({ show, handleClose }) {
               <Form.Control
                 type="text"
                 placeholder="Street"
-                autoFocus
-                id="street"
+                name="street"
+                value={formData.street} // Set value from formData
+                onChange={handleChange} // Set onChange to handleChange
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>City: </Form.Label>
-              <Form.Control type="text" placeholder="City" id="city" />
+              <Form.Control
+                type="text"
+                placeholder="City"
+                name="city"
+                value={formData.city} // Set value from formData
+                onChange={handleChange} // Set onChange to handleChange
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label column sm={2}>
@@ -133,11 +151,23 @@ function AddressModal({ show, handleClose }) {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Zip Code: </Form.Label>
-              <Form.Control type="text" placeholder="Zip Code" id="zipCode" />
+              <Form.Control
+                type="text"
+                placeholder="Zip Code"
+                name="zip" // Ensure this matches your formData property
+                value={formData.zip} // Set value from formData
+                onChange={handleChange} // Set onChange to handleChange
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Country: </Form.Label>
-              <Form.Control type="text" placeholder="Country" id="country" />
+              <Form.Control
+                type="text"
+                placeholder="Country"
+                name="country"
+                value={formData.country} // Set value from formData
+                onChange={handleChange} // Set onChange to handleChange
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
