@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import AddressModal from "../components/AddressModal";
 import Select from "react-select"; // Import React-Select
+import imageCart from '../assets/Images/emptyCart.png';
 
 export default function FinalCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -107,7 +108,9 @@ export default function FinalCart() {
     return (
       <div>
         <NavBar />
-        <p>No items in the cart.</p>
+        <div style={{background:'#f6f0e4'}}>
+          <img src={imageCart} style={{width:'70vh', height:'70vh',display:'block', marginLeft:'auto',marginRight:'auto'}} alt="empty cart" />
+        </div>
         <Footer />
       </div>
     );
@@ -121,7 +124,7 @@ export default function FinalCart() {
   return (
     <div>
       <NavBar />
-      <div className="checkout-container">
+      <div className="checkout-container" style={{background:'#f6f0e4'}}>
         <div className="cart-items-container col-8">
           <h2>Cart Items</h2>
           <ul className="cart-items">
