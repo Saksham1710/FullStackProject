@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { registerUser, loginUser, getCurrentUser, logoutUser, getAddress, addAddress } from "../controllers/user.controller.js";
-import { addCoffeeToCart, addTeaToCart, addBeverageToCart, getCartItems, updateCartQty, removeFromCart } from "../controllers/cart.controller.js";
+import { addCoffeeToCart, addTeaToCart, addBeverageToCart, getCartItems, updateCartQty, removeFromCart,addItemToOrderHistory } from "../controllers/cart.controller.js";
 import {createPaymentSession} from '../utils/Payment.js';
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -33,6 +33,7 @@ router.post("/payment", async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   });
+router.route("/cart/add-order-to-cart").post(verifyJWT,addItemToOrderHistory)
 
 
 // secured routes

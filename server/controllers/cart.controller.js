@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Cart } from "../models/cart.model.js";
+import { Order } from "../models/order.model.js";
 
 
 //add the item into the DB
@@ -236,4 +237,24 @@ const updateCartQty = async (req, res) => {
      return new ApiResponse(200, "Cart updated", { cart });
 };
 
-export { addCoffeeToCart, getCartItems, removeFromCart, addTeaToCart, addBeverageToCart, updateCartQty};
+const addItemToOrderHistory = asyncHandler(async(req,res)=> {
+    const {userId, addressId, orderItems, paymentMethod, paymentResult, taxPrice, shippingPrice, totalPrice, isPaid, paidAt, isDelivered, deliveredAt} = req.body;
+    console.log("Request body", req.body);
+    let orderhistory=await Order.create({
+        userId,
+        addressId,
+        orderItems,
+        paymentMethod,
+        paymentResult,
+        taxPrice,
+        shippingPrice ,
+        totalPrice,
+        isPaid,
+        paidAt,
+        isDelivered,
+        deliveredAt
+    });
+   res.json(orderhistory);
+});
+
+export { addCoffeeToCart, getCartItems, removeFromCart, addTeaToCart, addBeverageToCart, updateCartQty, addItemToOrderHistory};

@@ -21,7 +21,7 @@ async function createPaymentSession(items) {
       // Enable automatic tax calculation
       automatic_tax: { enabled: true },
       success_url: `http://localhost:3000/success`,
-      cancel_url: `http://localhost:3000/cancel`,
+      cancel_url: `http://localhost:3000/api/v1/users/cart/finalPage`,
     });
     return session;
   } catch (error) {

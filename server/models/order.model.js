@@ -1,11 +1,11 @@
 import mongoose, {Schema} from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-    user_id:{
+    userId:{
         type: Schema.Types.ObjectId,  
         ref: 'User',
     },
-    address_id:{
+    addressId:{
         type: Schema.Types.ObjectId,  
         ref: 'Address',
     },
@@ -27,7 +27,6 @@ const orderSchema = new mongoose.Schema({
     ],
     paymentMethod:{
         type: String,
-        required: true
     },
     paymentResult:{
         id: String,

@@ -72,32 +72,71 @@ export default function FinalCart() {
   }, []);
   // implement stripe method for payment
   const handlePayment = async () => {
-  try {
-    if (!cartItems || cartItems.length === 0) {
-      console.error("Cart is empty");
-      return;
-    }
+    try {
+        if (!cartItems || cartItems.length === 0) {
+            console.error("Cart is empty");
+            return;
+        }
 
-    const response = await fetch("http://localhost:4000/api/v1/users/payment", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ items: cartItems }), // Ensure cartItems is passed inside an object with key 'items'
-    });
+        const response = await fetch("http://localhost:4000/api/v1/users/payment", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ items: cartItems }), // Ensure cartItems is passed inside an object with key 'items'
+        });
 
-    if (response.ok) {
-      const { url } = await response.json();
-      window.location = url;
-    } else {
-      const errorData = await response.json();
-      console.error("Error making payment:", errorData);
+        if (response.ok) {
+            const { url } = await response.json();
+            window.location = url;
+
+            const orderItems = cartItems.map((item) => ({
+                product_id: item._id,
+                quantity: item.quantity,
+                price: item.price,
+            }));
+
+            const order = {
+                userId: cartItems[0].userId, // Assuming all cart items have the same user ID
+                addressId: selectedAddress?._id,
+                orderItems: orderItems, // Assign directly without wrapping in an array
+                paymentMethod: "Credit Card",
+                paymentResult: { id: Math.random().toString() },
+                taxPrice: taxes,
+                shippingPrice: 10,
+                totalPrice: subtotal + 10,
+                isPaid: true,
+                paidAt: new Date(),
+                isDelivered: false,
+                deliveredAt: new Date(),
+            };
+
+            console.log("Order Items in payment route:", JSON.stringify(order));
+
+            const res = await fetch("http://localhost:4000/api/v1/users/cart/add-order-to-cart", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ orderItem: order }), // Pass order object to store in the database
+            });
+            if (res.ok) {
+                console.log("Order added to cart");
+            } else {
+                const errorData = await res.json();
+                console.error("Error adding order to cart:", errorData);
+            }
+        } else {
+            const errorData = await response.json();
+            console.error("Error making payment:", errorData);
+        }
+    } catch (error) {
+        console.error("Error making payment:", error);
     }
-  } catch (error) {
-    console.error("Error making payment:", error);
-  }
 };
+
 
   const handleAddAddress = async (event) => {
     event.preventDefault();
@@ -119,7 +158,8 @@ export default function FinalCart() {
   const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
   const taxRate = 0.12;
   const taxes = totalPrice * taxRate;
-  const subtotal = totalPrice + taxes;
+  const deliveryCharge=10;
+  const subtotal = totalPrice + taxes + deliveryCharge;
 
   return (
     <div>
@@ -156,6 +196,12 @@ export default function FinalCart() {
                 <span>Taxes:</span>
                 <span>${taxes.toFixed(2)}</span>
               </div>
+              <div className="taxes">
+                <span>Delivery Charges:</span>
+                <span>${deliveryCharge.toFixed(2)}</span>
+              </div>
+              <br/>
+              <hr></hr>
               <div className="total">
                 <span>Total Payment:</span>
                 <span>${subtotal.toFixed(2)}</span>
