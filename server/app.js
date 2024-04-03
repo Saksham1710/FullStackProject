@@ -12,6 +12,7 @@ const corsOptions = {
 };
 
 
+
 app.use(cors(corsOptions));
 
 app.use((err, req, res, next) => {

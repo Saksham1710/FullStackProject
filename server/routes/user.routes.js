@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { registerUser, loginUser, getCurrentUser, logoutUser, getAddress, addAddress } from "../controllers/user.controller.js";
 import { addCoffeeToCart, addTeaToCart, addBeverageToCart, getCartItems, updateCartQty, removeFromCart } from "../controllers/cart.controller.js";
+import {createPaymentSession} from '../utils/Payment.js';
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 
@@ -18,7 +19,20 @@ router.route("/cart/updateQty/:itemId/:quantity").post(verifyJWT,updateCartQty);
 router.route("/cart/remove/:itemId").delete(verifyJWT,removeFromCart);
 router.route("/get-address").get(verifyJWT,getAddress);
 router.route("/add-address").post(verifyJWT,addAddress);
-
+router.post("/payment", async (req, res) => {
+    try {
+      const { items } = req.body;
+      console.log(
+        "Items in payment route:",
+        items
+      );
+       const session = await createPaymentSession(items);
+       console.log("Session:", session.url);
+       res.json({ url: session.url });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
 
 
 // secured routes

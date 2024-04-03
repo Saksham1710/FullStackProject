@@ -31,6 +31,7 @@ export default function FinalCart() {
         if (response.ok) {
           const responseData = await response.json();
           setCartItems(responseData.data);
+          console.log("Cart items:", responseData.data);
         } else {
           console.error(
             "Failed to fetch cart items, status:",
@@ -68,6 +69,34 @@ export default function FinalCart() {
     };
     fetchAddresses();
   }, []);
+  // implement stripe method for payment
+  const handlePayment = async () => {
+  try {
+    if (!cartItems || cartItems.length === 0) {
+      console.error("Cart is empty");
+      return;
+    }
+
+    const response = await fetch("http://localhost:4000/api/v1/users/payment", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ items: cartItems }), // Ensure cartItems is passed inside an object with key 'items'
+    });
+
+    if (response.ok) {
+      const { url } = await response.json();
+      window.location = url;
+    } else {
+      const errorData = await response.json();
+      console.error("Error making payment:", errorData);
+    }
+  } catch (error) {
+    console.error("Error making payment:", error);
+  }
+};
 
   const handleAddAddress = async (event) => {
     event.preventDefault();
@@ -102,9 +131,11 @@ export default function FinalCart() {
                   <img src={item.image} alt={item.title} />
                   <div className="item-details">
                     <h4>{item.title}</h4>
-                    <p>${item.price.toFixed(2)}</p>
                     <p>Quantity: {item.quantity}</p>
+                    {item.packing ? <p>Packing: {item.packing}</p> : <></>}
+                    {item.mlQuantity ? <p>{item.mlQuantity}</p> : <></>}
                   </div>
+                    <p style={{fontSize:'20px'}}>${item.price.toFixed(2)}</p>
                 </div>
               </li>
             ))}
@@ -128,7 +159,7 @@ export default function FinalCart() {
               </div>
             </div>
             <div className="payment-options">
-              <button>Pay with Credit Card</button>
+              <button id="stripe-pay" onClick={handlePayment}>Pay with Credit Card</button>
               <button>Pay with PayPal</button>
             </div>
           </div>
@@ -137,16 +168,25 @@ export default function FinalCart() {
               <div>
                 <h3>Select an Address</h3>
                 <Select
+                  // on clicking the dropdown, fetch the address first and then display it
+
                   options={addresses.map((address) => ({
-                    value: address._id,
-                    label: `${address.houseNumber}, ${address.street}, ${address.city}, ${address.state}, ${address.country}`,
+                    key: address._id,
+                    value: `${address.houseNumber},${address.street}, ${address.city}, ${address.state}, ${address.country}, ${address.zip}`,
+                    label: `${address.houseNumber}, ${address.street}, ${address.city}, ${address.state}, ${address.country}, ${address.zip}`,
                   }))}
                   onChange={(selectedOption) =>
                     setSelectedAddress(selectedOption.value)
                   }
                   value={selectedAddress}
                 />
-                <button onClick={() => setShowAddressModal(true)}>
+                {/* now display the selected address in a label */}
+                {selectedAddress !== null ? (
+                  <label style={{margin:'15px'}}>{selectedAddress}</label>
+                ) : (
+                  <></>
+                )}
+                <button style={{marginTop:'15px'}} onClick={() => setShowAddressModal(true)}>
                   Add New Address
                 </button>
               </div>
