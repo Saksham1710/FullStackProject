@@ -12,6 +12,8 @@ export default function FinalCart() {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
 
+  // cannot select address and add new address at the same time
+
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
