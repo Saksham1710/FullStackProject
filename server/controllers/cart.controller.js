@@ -237,24 +237,26 @@ const updateCartQty = async (req, res) => {
      return new ApiResponse(200, "Cart updated", { cart });
 };
 
-const addItemToOrderHistory = asyncHandler(async(req,res)=> {
-    const {userId, addressId, orderItems, paymentMethod, paymentResult, taxPrice, shippingPrice, totalPrice, isPaid, paidAt, isDelivered, deliveredAt} = req.body;
-    console.log("Request body", req.body);
-    let orderhistory=await Order.create({
-        userId,
-        addressId,
-        orderItems,
-        paymentMethod,
-        paymentResult,
-        taxPrice,
-        shippingPrice ,
-        totalPrice,
-        isPaid,
-        paidAt,
-        isDelivered,
-        deliveredAt
-    });
-   res.json(orderhistory);
+const addItemToOrderHistory = asyncHandler(async(req, res) => {
+    try {
+        const { orderItem } = req.body;
+        // Verify if orderItem is correctly received
+        console.log("Request body", orderItem);
+
+        // Create the order history using the received orderItem
+        let orderhistory = await Order.create(orderItem);
+
+        await Cart.deleteMany({ userId: orderItem.userId });
+        console.log("Order Deleted");
+        console.log("Order history", orderhistory);
+
+        res.json(orderhistory);
+    } catch (error) {
+        console.error("Error adding order to cart:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
-export { addCoffeeToCart, getCartItems, removeFromCart, addTeaToCart, addBeverageToCart, updateCartQty, addItemToOrderHistory};
+
+
+export { addCoffeeToCart, getCartItems, removeFromCart, addTeaToCart, addBeverageToCart, updateCartQty, addItemToOrderHistory, };

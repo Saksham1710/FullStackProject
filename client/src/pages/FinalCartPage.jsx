@@ -71,7 +71,7 @@ export default function FinalCart() {
     fetchAddresses();
   }, []);
   // implement stripe method for payment
-  const handlePayment = async () => {
+const handlePayment = async () => {
     try {
         if (!cartItems || cartItems.length === 0) {
             console.error("Cart is empty");
@@ -99,7 +99,7 @@ export default function FinalCart() {
 
             const order = {
                 userId: cartItems[0].userId, // Assuming all cart items have the same user ID
-                addressId: selectedAddress?._id,
+                addressId: selectedAddress,
                 orderItems: orderItems, // Assign directly without wrapping in an array
                 paymentMethod: "Credit Card",
                 paymentResult: { id: Math.random().toString() },
@@ -124,6 +124,8 @@ export default function FinalCart() {
             });
             if (res.ok) {
                 console.log("Order added to cart");
+                // Clear cart items after successful payment
+                setCartItems([]);
             } else {
                 const errorData = await res.json();
                 console.error("Error adding order to cart:", errorData);
@@ -136,6 +138,8 @@ export default function FinalCart() {
         console.error("Error making payment:", error);
     }
 };
+
+
 
 
   const handleAddAddress = async (event) => {

@@ -5,6 +5,9 @@ import logo from "../assets/Images/onlyLogo.png";
 import { Offcanvas } from 'react-bootstrap'; // Import Offcanvas from react-bootstrap
 import "../styles/style.css";
 import CartModal from "./CartModal";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function NavBar() {
@@ -14,6 +17,7 @@ export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to check if user is logged in or not
   //const [userAvatar, setUserAvatar] = useState(null); // State to store the user's avatar
   const [userInitials, setUserInitials] = useState(""); // State to store the user's initials
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const fetchUserLoginStatus = async () => {
@@ -58,7 +62,9 @@ export default function NavBar() {
   };
 
   // Function to handle user logout
+  
   const handleLogout = async () => {
+  
     try {
       const response = await fetch('http://localhost:4000/api/v1/users/logout', {
         method: 'POST',
@@ -67,13 +73,18 @@ export default function NavBar() {
           'Content-Type': 'application/json',
         },
       });
+  
       if (response.ok) {
         setIsLoggedIn(false);
+        // Redirect to the home page
+        navigate('/');
+        
       }
     } catch (error) {
       console.error('Error logging out:', error);
     }
   };
+  
 
   return (
     <MDBNavbar expand="lg" light bgColor="#6B240C" style={{ backgroundColor: '#fcf9f5' }}>
@@ -117,10 +128,8 @@ export default function NavBar() {
                 </MDBDropdownToggle>
                 <MDBDropdownMenu style={{backgroundColor:"#fcf9f5"}}>
                   <MDBDropdownItem link href="/accountSettings" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="user-circle" className="me-2" />Account Settings</MDBDropdownItem>
-                  <MDBDropdownItem link href="/orderHistory" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="history" className="me-2" />Order History</MDBDropdownItem>
-                  <MDBDropdownItem link href="/paymentMethods" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="credit-card" className="me-2" />Payment Methods</MDBDropdownItem>
+                  <MDBDropdownItem link href="/api/v1/users/order-history" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="history" className="me-2" />Order History</MDBDropdownItem>
                   <MDBDropdownItem link href="/shippingInfo" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="truck" className="me-2" />Shipping Information</MDBDropdownItem>
-                  <MDBDropdownItem link href="/subscription" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="bell" className="me-2" />Subscription</MDBDropdownItem>
                   <MDBDropdownItem link onClick={handleLogout} style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="sign-out-alt" className="me-2" />Logout</MDBDropdownItem>
                 </MDBDropdownMenu>
               </MDBDropdown>

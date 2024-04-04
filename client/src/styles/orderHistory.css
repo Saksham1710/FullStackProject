@@ -1,0 +1,21 @@
+.order-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-details {
+    margin-top: 10px;
+  }
+  
+  .order-details p {
+    margin: 5px 0;
+  }
+  
+  .order-address {
+    margin-top: 10px;
+    font-style: italic;
+  }
+  

@@ -14,6 +14,7 @@ import ProductPage from './pages/ProductPage.jsx';
 import ProductPageBottle from './pages/ProductPageBottle.jsx';
 import ProductPageTea from './pages/ProductPageTea.jsx';
 import FinalCart from './pages/FinalCartPage.jsx';
+import OrderHistory from './pages/OrderHistoryPage.jsx';
 
 const router = createBrowserRouter([
     {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
         path: "*",
         element: <NotFoundPage />,
     },
+    {
+        path: "api/v1/users/order-history",
+        element: <OrderHistory />
+    }
 ]);
 
 ReactDOM.render(
