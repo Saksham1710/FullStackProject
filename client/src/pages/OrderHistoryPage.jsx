@@ -12,7 +12,7 @@ const OrderItem = ({ order }) => {
           <p>Order Date: {new Date(order.createdAt).toLocaleString()}</p>
           <p>Total Price: ${order.totalPrice.toFixed(2)}</p>
           <p>Payment Method: {order.paymentMethod}</p>
-          <p>Items: {order.orderItems.length}, ({order.orderItems.map(itemName => itemName.product_id + ",\t")}) </p>
+          <p>Items: {order.orderItems.length}- ({order.orderItems.map(itemName => itemName.title + ",\t")}) </p>
           {/* Add more order details as needed */}
         </div>
         <div className="order-address">
@@ -78,7 +78,7 @@ function OrderHistory() {
     return (
         <>
           <Navbar />
-          <div className="container" style={{ minHeight: '70vh' }}>
+          <div className="container" style={{ minHeight: '70vh', marginTop:'20px' }}>
             {orderHistory.length > 0 && <h2>Order History -  {userName}</h2>}
             <div className="order-history">
               {orderHistory.length > 0 ? (

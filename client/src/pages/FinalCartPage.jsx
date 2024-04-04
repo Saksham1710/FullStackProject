@@ -95,6 +95,7 @@ const handlePayment = async () => {
                 product_id: item._id,
                 quantity: item.quantity,
                 price: item.price,
+                title: item.title,
             }));
 
             const order = {
@@ -173,7 +174,7 @@ const handlePayment = async () => {
           <h2>Cart Items</h2>
           <ul className="cart-items">
             {cartItems.map((item, index) => (
-              <li key={index}>
+              <li style={{border:'2px solid #f9f9f9', boxShadow:' 0 0 10px rgba(0, 0, 0, 0.1)', marginBottom:'20px', background:'#f9f9f9', padding:"0px 20px", borderRadius:'20px'}} key={index}>
                 <div className="cart-item">
                   <img src={item.image} alt={item.title} />
                   <div className="item-details">
