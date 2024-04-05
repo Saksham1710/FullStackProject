@@ -6,6 +6,8 @@ import { Offcanvas } from 'react-bootstrap'; // Import Offcanvas from react-boot
 import "../styles/style.css";
 import CartModal from "./CartModal";
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -75,7 +77,7 @@ export default function NavBar() {
   
       if (response.ok) {
         setIsLoggedIn(false);
-        // Redirect to the home page
+        notify("You have been logged out successfully!");
         navigate('/');
         
       }
@@ -83,10 +85,22 @@ export default function NavBar() {
       console.error('Error logging out:', error);
     }
   };
+  const notify = (message) =>
+        toast.success(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
   
 
   return (
     <MDBNavbar expand="lg" light bgColor="#6B240C" style={{ backgroundColor: '#fcf9f5' }}>
+    <ToastContainer />
       <MDBContainer fluid>
         <MDBNavbarBrand href="/">
           <img src={logo} alt="Brand logo" style={{ width: '50px', marginLeft: '10px' }} />
