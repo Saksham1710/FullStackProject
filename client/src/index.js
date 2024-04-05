@@ -15,6 +15,7 @@ import ProductPageBottle from './pages/ProductPageBottle.jsx';
 import ProductPageTea from './pages/ProductPageTea.jsx';
 import FinalCart from './pages/FinalCartPage.jsx';
 import OrderHistory from './pages/OrderHistoryPage.jsx';
+import Profile from './pages/ProfilePage.jsx';
 
 const router = createBrowserRouter([
     {
@@ -60,6 +61,9 @@ const router = createBrowserRouter([
     {
         path: "api/v1/users/order-history",
         element: <OrderHistory />
+    },{
+        path: "api/v1/users/profile",
+        element: <Profile />
     }
 ]);
 

@@ -5,7 +5,6 @@ import logo from "../assets/Images/onlyLogo.png";
 import { Offcanvas } from 'react-bootstrap'; // Import Offcanvas from react-bootstrap
 import "../styles/style.css";
 import CartModal from "./CartModal";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -116,20 +115,14 @@ export default function NavBar() {
             <MDBNavbarItem>
               <MDBNavbarLink href="/about-us" style={{fontSize:'18px'}}>About Us</MDBNavbarLink>
             </MDBNavbarItem>
-
-            <MDBNavbarItem>
-              <MDBNavbarLink href="/pricing" style={{fontSize:'18px'}}>Pricing</MDBNavbarLink>
-            </MDBNavbarItem>
-
             <MDBNavbarItem>
               <MDBDropdown>
                 <MDBDropdownToggle tag="a" className="nav-link" role="button" style={{fontSize:'18px'}}>
                   Settings
                 </MDBDropdownToggle>
                 <MDBDropdownMenu style={{backgroundColor:"#fcf9f5"}}>
-                  <MDBDropdownItem link href="/accountSettings" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="user-circle" className="me-2" />Account Settings</MDBDropdownItem>
+                  <MDBDropdownItem link href="/api/v1/users/profile" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="user-circle" className="me-2" />Account Settings</MDBDropdownItem>
                   <MDBDropdownItem link href="/api/v1/users/order-history" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="history" className="me-2" />Order History</MDBDropdownItem>
-                  <MDBDropdownItem link href="/shippingInfo" style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="truck" className="me-2" />Shipping Information</MDBDropdownItem>
                   <MDBDropdownItem link onClick={handleLogout} style={{fontSize:"16px", fontFamily:'open sans', margin:'5px'}}><MDBIcon fas icon="sign-out-alt" className="me-2" />Logout</MDBDropdownItem>
                 </MDBDropdownMenu>
               </MDBDropdown>

@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { registerUser, loginUser, getCurrentUser, logoutUser, getAddress, addAddress } from "../controllers/user.controller.js";
+import { registerUser, loginUser, getCurrentUser, logoutUser, getAddress, addAddress, updateProfile } from "../controllers/user.controller.js";
 import { addCoffeeToCart, addTeaToCart, addBeverageToCart, getCartItems, updateCartQty, removeFromCart,addItemToOrderHistory } from "../controllers/cart.controller.js";
 import { getOrderHistory } from "../controllers/order.controller.js";
 import {createPaymentSession} from '../utils/Payment.js';
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { upload } from "../middlewares/multer.middleware.js";
 
 
 const router = Router()
@@ -36,6 +37,7 @@ router.post("/payment", async (req, res) => {
   });
 router.route("/cart/add-order-to-cart").post(verifyJWT,addItemToOrderHistory);
 router.route('/get-order-history').get(verifyJWT,getOrderHistory);
+router.route("/update-profile").patch(verifyJWT,updateProfile);
 
 
 
