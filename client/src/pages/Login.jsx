@@ -39,19 +39,17 @@ function Login() {
                 },
                 body: JSON.stringify(formData)
             });
-
+            //console.log("Response:", response);
             const data = await response.json();
             if (!response.ok) {
-                throw new Error(data.message);
+                throw new Error(data.message); // Throw error with message from API response
             }
-            //setUser(data.user);
-            //localStorage.setItem("token", data.token);
-            //navigate to the home page after successful login
             navigate('/');
         } catch (error) {
-            setError(error.message);
+            setError("User does not exist"); // Set error message state to display to the user
         }
     };
+    
 
     
     return (
@@ -63,7 +61,7 @@ function Login() {
                         <img src={logo} alt="Logo" style={{ height: '240px', marginBottom: '20px' }} />
                     </div>
                     <div className='d-flex flex-column justify-content-center h-custom-2 w-75'>
-                    {error && <div className="alert alert-danger">{error}</div>}
+                    {error && <div className="alert alert-danger mb-4 px-5 mx-5 w-100">{error}</div>}
                         <h3 className="fw-normal mb-3 ps-5 pb-3" style={{ letterSpacing: '1px', color: '#6e4b3a' }}>Log in</h3>
                         <MDBInput
                                 wrapperClass='mb-4 mx-5 w-100'

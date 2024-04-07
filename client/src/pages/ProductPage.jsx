@@ -25,7 +25,8 @@ function ProductPage() {
                 const responseData = await response.json();
                 const parseData= JSON.parse(responseData.data);
                 setUserId(parseData._id);
-                console.log('User ID:', parseData._id);
+                console.log('User ID coffee:', parseData._id);
+                console.log('User ID coffee:', userId);
                 
             }
         } catch (error) {

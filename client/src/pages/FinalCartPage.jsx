@@ -5,6 +5,8 @@ import NavBar from "../components/NavBar";
 import AddressModal from "../components/AddressModal";
 import Select from "react-select"; // Import React-Select
 import imageCart from '../assets/Images/emptyCart.png';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function FinalCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -70,12 +72,27 @@ export default function FinalCart() {
     };
     fetchAddresses();
   }, []);
+  const notify = (message) =>
+  toast.error(message, {
+  position: "top-center",
+  autoClose: 1500,
+  hideProgressBar: true,
+  closeOnClick: true,
+  pauseOnHover: false,
+  draggable: true,
+  progress: undefined,
+  theme: "light",
+});
   // implement stripe method for payment
 const handlePayment = async () => {
     try {
         if (!cartItems || cartItems.length === 0) {
             console.error("Cart is empty");
             return;
+        }
+        if(!selectedAddress){
+          notify("Please select an address to proceed with payment");
+        return;
         }
 
         const response = await fetch("http://localhost:4000/api/v1/users/payment", {
@@ -143,6 +160,7 @@ const handlePayment = async () => {
 
 
 
+
   const handleAddAddress = async (event) => {
     event.preventDefault();
     setShowAddressModal(!showAddressModal);
@@ -169,6 +187,7 @@ const handlePayment = async () => {
   return (
     <div>
       <NavBar />
+      <ToastContainer />
       <div className="checkout-container" style={{background:'#f6f0e4'}}>
         <div className="cart-items-container col-8">
           <h2>Cart Items</h2>
@@ -213,7 +232,7 @@ const handlePayment = async () => {
               </div>
             </div>
             <div className="payment-options">
-              <button id="stripe-pay" onClick={handlePayment}>Pay with Credit Card</button>
+              <button id="stripe-pay" onClick={handlePayment} >Pay with Credit Card</button>
               <button>Pay with PayPal</button>
             </div>
           </div>

@@ -116,7 +116,7 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    console.log(new ApiResponse(404, null, "User does not exist"));
+    console.log("API RESPONSE",new ApiResponse(404, null, "User does not exist"));
     throw new ApiResponse(404, null, "User does not exist");
   }
 

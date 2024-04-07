@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import cart from '../assets/Data/CartData';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BottledProduct = ({userId}) => {
   const { productId } = useParams();
@@ -56,7 +58,7 @@ const BottledProduct = ({userId}) => {
                 },
                 body: JSON.stringify(newItem)
             });
-
+notify("Item added to cart successfully!");
             if (!response.ok) {
                 throw new Error('Failed to add item');
             }
@@ -92,12 +94,24 @@ const BottledProduct = ({userId}) => {
     }
   }, [mlQuantity, product]);
 
+  const notify = (message) =>
+  toast.success(message, {
+    position: "top-center",
+    autoClose: 1500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
   if (!product) {
     return <div>Loading...</div>;
   }
 
 return (
     <div className="container" style={{ marginTop: '10vh', marginBottom: '10vh' }}>
+      <ToastContainer />
       <div className="row">
         <div className="col-md-6">
           <div className="product-image">
