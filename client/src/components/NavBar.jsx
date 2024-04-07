@@ -23,7 +23,7 @@ export default function NavBar() {
   useEffect(()=>{
     const fetchUserLoginStatus = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/v1/users/current-user', {
+        const response = await fetch('https://full-stack-project-backend.vercel.app/api/v1/users/current-user', {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -67,7 +67,7 @@ export default function NavBar() {
   const handleLogout = async () => {
   
     try {
-      const response = await fetch('http://localhost:4000/api/v1/users/logout', {
+      const response = await fetch('https://full-stack-project-backend.vercel.app/api/v1/users/logout', {
         method: 'POST',
         credentials: 'include',
         headers: {

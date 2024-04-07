@@ -21,7 +21,7 @@ export default function FinalCart() {
     const fetchCartItems = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/v1/users/cart",
+          "https://full-stack-project-backend.vercel.app/api/v1/users/cart",
           {
             method: "GET",
             credentials: "include",
@@ -53,7 +53,7 @@ export default function FinalCart() {
     const fetchAddresses = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/v1/users/get-address",
+          "https://full-stack-project-backend.vercel.app/api/v1/users/get-address",
           {
             method: "GET",
             credentials: "include",
@@ -95,7 +95,7 @@ const handlePayment = async () => {
         return;
         }
 
-        const response = await fetch("http://localhost:4000/api/v1/users/payment", {
+        const response = await fetch("https://full-stack-project-backend.vercel.app/api/v1/users/payment", {
             method: "POST",
             credentials: "include",
             headers: {
@@ -132,7 +132,7 @@ const handlePayment = async () => {
 
             console.log("Order Items in payment route:", JSON.stringify(order));
 
-            const res = await fetch("http://localhost:4000/api/v1/users/cart/add-order-to-cart", {
+            const res = await fetch("https://full-stack-project-backend.vercel.app/api/v1/users/cart/add-order-to-cart", {
                 method: "POST",
                 credentials: "include",
                 headers: {

@@ -4,16 +4,23 @@ import cookieParser from "cookie-parser";
 
 
 const app = express();
-const corsOptions = {
-    origin: 'http://localhost:3000', 
-    methods: 'GET, POST, PUT, PATCH, DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-};
+app.use(cors());
+// const corsOptions = {
+//     origin: 'https://brewbox-five.vercel.app', 
+//     methods: 'GET, POST, PUT, PATCH, DELETE',
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true
+// };
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "https://brewbox-five.vercel.app");
+//     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
+//     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+//     next();
+//   })
 
 
 
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 
 app.use((err, req, res, next) => {
     if (err instanceof ApiError) {
