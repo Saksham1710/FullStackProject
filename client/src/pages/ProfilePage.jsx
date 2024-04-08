@@ -21,7 +21,7 @@ function Profile() {
     const fetchUserData = async () => {
       try {
         const response = await fetch(
-          "https://full-stack-project-backend.vercel.app/api/v1/users/current-user",
+          "http://localhost:4000/api/v1/users/current-user",
           {
             method: "GET",
             credentials: "include",
@@ -70,7 +70,7 @@ function Profile() {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://full-stack-project-backend.vercel.app/api/v1/users/update-profile",
+        "http://localhost:4000/api/v1/users/update-profile",
         {
           method: "PATCH",
           credentials: "include",

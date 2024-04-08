@@ -34,7 +34,7 @@ function Register() {
         try {
             // Add validation checks here before sending the request
 
-            const response = await fetch('https://full-stack-project-backend.vercel.app/api/v1/users/register', {
+            const response = await fetch('http://localhost:4000/api/v1/users/register', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

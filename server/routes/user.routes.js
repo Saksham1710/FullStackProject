@@ -46,6 +46,3 @@ router.route("/update-profile").patch(verifyJWT,updateProfile);
 
 
 export default router;
-    
-
-//localhost:4000/api/v1/users/cart

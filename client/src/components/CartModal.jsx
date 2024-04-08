@@ -12,7 +12,7 @@ function CartModal({ show, toggleCartModal }) {
   //Function to fetch the items from db to cart
   const fetchCartItems = async () => {
     try {
-      const response = await fetch("https://full-stack-project-backend.vercel.app/api/v1/users/cart", {
+      const response = await fetch("http://localhost:4000/api/v1/users/cart", {
         method: "GET",
         credentials: 'include',
         headers: {
@@ -32,7 +32,7 @@ function CartModal({ show, toggleCartModal }) {
 
   const updateQuantity = async (itemId, quantity) => {
     try {
-      const response = await fetch(`https://full-stack-project-backend.vercel.app/api/v1/users/cart/updateQty/${itemId}/${quantity}`, {
+      const response = await fetch(`http://localhost:4000/api/v1/users/cart/updateQty/${itemId}/${quantity}`, {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -50,7 +50,7 @@ function CartModal({ show, toggleCartModal }) {
 
   const removeFromCart = async (itemId) => {
     try {
-      const response = await fetch(`https://full-stack-project-backend.vercel.app/api/v1/users/cart/remove/${itemId}`, {
+      const response = await fetch(`http://localhost:4000/api/v1/users/cart/remove/${itemId}`, {
         method: "DELETE",
         credentials: 'include',
         headers: {

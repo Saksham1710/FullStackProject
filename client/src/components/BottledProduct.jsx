@@ -16,7 +16,7 @@ const BottledProduct = ({userId}) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://full-stack-project-backend.vercel.app/api/v1/beverages/` + productId);
+        const response = await axios.get(`http://localhost:4000/api/v1/beverages/` + productId);
         if (response.data) {
           console.log('Product:', response.data);
           setProduct(response.data);
@@ -50,7 +50,7 @@ const BottledProduct = ({userId}) => {
       cart.push(newItem);
       console.log("Cart Items \n"+(JSON.stringify(cart)));
 
-      const response = await fetch('https://full-stack-project-backend.vercel.app/api/v1/users/beverage/cart/add', {
+      const response = await fetch('http://localhost:4000/api/v1/users/beverage/cart/add', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

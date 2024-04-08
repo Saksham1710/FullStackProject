@@ -16,7 +16,7 @@ const ProductPageComponent = ({productId,userId}) => {// Extract productId from 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://full-stack-project-backend.vercel.app/api/v1/coffees/`+productId);
+        const response = await axios.get(`http://localhost:4000/api/v1/coffees/`+productId);
         if (response.data) {
           console.log('Product:', response.data);
           setProduct(response.data);
@@ -59,7 +59,7 @@ const ProductPageComponent = ({productId,userId}) => {// Extract productId from 
       cart.push(newItem);
       console.log("Cart Items \n"+(JSON.stringify(cart)));
 
-      const response = await fetch('https://full-stack-project-backend.vercel.app/api/v1/users/coffee/cart/add', {
+      const response = await fetch('http://localhost:4000/api/v1/users/coffee/cart/add', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

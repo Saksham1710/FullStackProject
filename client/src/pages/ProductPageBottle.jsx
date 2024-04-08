@@ -13,7 +13,7 @@ function ProductPageBottle() {
     //fetch the current user
     const fetchUser = async () => {
         try {
-            const response = await fetch('https://full-stack-project-backend.vercel.app/api/v1/users/current-user', {
+            const response = await fetch('http://localhost:4000/api/v1/users/current-user', {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -37,7 +37,7 @@ function ProductPageBottle() {
     //fetch the product based on productId
      const fetchProduct = async () => {
          try {
-            const response = await axios.get(`https://full-stack-project-backend.vercel.app/api/v1/beverages/`+productId);
+            const response = await axios.get(`http://localhost:4000/api/v1/beverages/`+productId);
             if (response.data) {
               //console.log('Product:', response.data);
               data.push(response.data);

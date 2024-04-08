@@ -12,7 +12,7 @@ function ShoppingPage() {
     const [teas, setTeaData] = useState([]); // Create a state variable to store the tea data
     const [bottledBeverages, setBeveragesData] = useState([]); // Create a state variable to store the bottled beverages data
 
-    const url="https://full-stack-project-backend.vercel.app/";
+    const url="http://localhost:4000/";
     useEffect(()=> {
             const fetchCoffee = async() =>{
            try {

@@ -30,7 +30,7 @@ function OrderHistory() {
     useEffect(() => {
         const fetchOrderHistory = async () => {
             try {
-                const response = await fetch("https://full-stack-project-backend.vercel.app/api/v1/users/get-order-history", {
+                const response = await fetch("http://localhost:4000/api/v1/users/get-order-history", {
                     method: "GET",
                     credentials: "include",
                     headers: {
@@ -51,7 +51,7 @@ function OrderHistory() {
 
         const fetchUserData = async () => {
             try {
-                const response = await fetch("https://full-stack-project-backend.vercel.app/api/v1/users/current-user", {
+                const response = await fetch("http://localhost:4000/api/v1/users/current-user", {
                     method: "GET",
                     credentials: "include",
                     headers: {
