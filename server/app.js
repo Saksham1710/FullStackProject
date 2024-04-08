@@ -4,19 +4,20 @@ import cookieParser from "cookie-parser";
 
 
 const app = express();
-app.use(cors());
+//app.use(cors());
 // const corsOptions = {
 //     origin: 'https://brewbox-five.vercel.app', 
 //     methods: 'GET, POST, PUT, PATCH, DELETE',
 //     allowedHeaders: ['Content-Type', 'Authorization'],
 //     credentials: true
 // };
-// app.use((req, res, next) => {
-//     res.setHeader("Access-Control-Allow-Origin", "https://brewbox-five.vercel.app");
-//     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
-//     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-//     next();
-//   })
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://brewbox-five.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true'); 
+    next();
+  })
 
 
 
