@@ -139,7 +139,7 @@ function Profile() {
               onChange={handleInputChange}
             />
           </div>
-          <button type="submit" onClick={notify}>
+          <button type="submit">
             Update Profile
           </button>
           <ToastContainer />

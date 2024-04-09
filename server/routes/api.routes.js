@@ -2,6 +2,7 @@ import { Router } from "express";
 import { CoffeeData } from "../models/coffeeData.model.js";
 import { TeaData } from "../models/teaData.model.js";
 import { BeveragesData } from "../models/beveragesData.model.js";
+import {searchProduct} from "../controllers/search.controller.js";
 
 
 
@@ -91,6 +92,8 @@ api_router.get("/teas/:id", async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
+api_router.route("/search").post(searchProduct);
 
 
 

@@ -97,8 +97,8 @@ notify("Item added to cart successfully!");
   const notify = (message) =>
   toast.success(message, {
     position: "top-center",
-    autoClose: 1500,
-    hideProgressBar: false,
+    autoClose: 500,
+    hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: false,
     draggable: true,
